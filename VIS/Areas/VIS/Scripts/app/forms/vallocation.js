@@ -4834,9 +4834,9 @@
                 });
                 if (element == null || element[0] == undefined || element.length == 0 || element[0].SelectRow == undefined) {
                     //Set value to 0 when element is null
-                    $gridInvoice.records[event.recid]["AppliedAmt"] = 0;
-                    $gridInvoice.records[event.recid]["Writeoff"] = 0;
-                    $gridInvoice.records[event.recid]["Discount"] = 0;
+                    $gridInvoice.get(event.recid)["AppliedAmt"] = 0;
+                    $gridInvoice.get(event.recid)["Writeoff"] = 0;
+                    $gridInvoice.get(event.recid)["Discount"] = 0;
                     $gridInvoice.refreshCell(event.recid, "AppliedAmt");
                     $gridInvoice.refreshCell(event.recid, "Writeoff");
                     $gridInvoice.refreshCell(event.recid, "Discount");
@@ -4912,7 +4912,7 @@
                 }
                 //check weather someone clicked on select column checkbox in grid
                 if ((selectColIndex == event.column || event.column == null) && ((element[0] != undefined) && !(element[0].SelectRow == undefined))) {
-                    $gridInvoice.records[event.recid]["AppliedAmt"] = VIS.Utility.Util.getValueOfDecimal($gridInvoice.get(event.recid).Amount);
+                    $gridInvoice.get(event.recid)["AppliedAmt"] = VIS.Utility.Util.getValueOfDecimal($gridInvoice.get(event.recid).Amount);
                 }
                 tableChanged(event.recid, event.column, true, false);
             }
@@ -4933,9 +4933,9 @@
                 });
                 if (element == null || element[0] == undefined || element.length == 0 || element[0].SelectRow == undefined) {
                     //Set value to 0 when element is null
-                    $gridPayment.records[event.recid]["AppliedAmt"] = 0;
-                    //$gridPayment.records[event.recid]["Writeoff"] = 0;
-                    //$gridPayment.records[event.recid]["Discount"] = 0;
+                    $gridPayment.get(event.recid)["AppliedAmt"] = 0;
+                    //$gridPayment.get(event.recid)["Writeoff"] = 0;
+                    //$gridPayment.get(event.recid)["Discount"] = 0;
                     $gridPayment.refreshCell(event.recid, "AppliedAmt");
                     getMaxDate();
                 }
@@ -4995,7 +4995,7 @@
                                 $gridPayment.trigger(eData);
                                 return false;
                             }
-                            var DATEACCT = $gridPayment.records[event.recid].DATEACCT;
+                            var DATEACCT = $gridPayment.get(event.recid).DATEACCT;
                             var ConversnDate = Globalize.format(new Date($conversionDate.val()), "yyyy-MM-dd");
                             DATEACCT = Globalize.format(new Date(DATEACCT), "yyyy-MM-dd");
                             if (ConversnDate != DATEACCT) {
@@ -5025,7 +5025,7 @@
                 }
                 //check weather someone clicked on select column checkbox in grid
                 if ((selectColIndex == event.column || event.column == null) && ((element[0] != undefined) && !(element[0].SelectRow == undefined))) {
-                    $gridPayment.records[event.recid]["AppliedAmt"] = VIS.Utility.Util.getValueOfDecimal($gridPayment.get(event.recid).OpenAmt);
+                    $gridPayment.get(event.recid)["AppliedAmt"] = VIS.Utility.Util.getValueOfDecimal($gridPayment.get(event.recid).OpenAmt);
                 }
                 tableChanged(event.recid, event.column, false, false);
             }
@@ -5046,9 +5046,9 @@
                 });
                 if (element == null || element[0] == undefined || element.length == 0 || element[0].SelectRow == undefined) {
                     //Set value to 0 when element is null
-                    $gridCashline.records[event.recid]["AppliedAmt"] = 0;
-                    //$gridCashline.records[event.recid]["Writeoff"] = 0;
-                    //$gridCashline.records[event.recid]["Discount"] = 0;
+                    $gridCashline.get(event.recid)["AppliedAmt"] = 0;
+                    //$gridCashline.get(event.recid)["Writeoff"] = 0;
+                    //$gridCashline.get(event.recid)["Discount"] = 0;
                     $gridCashline.refreshCell(0, "AppliedAmt");
                 }
                 else {
@@ -5093,7 +5093,7 @@
                                 $gridCashline.trigger(eData);
                                 return false;
                             }
-                            var DATEACCT = $gridCashline.records[event.recid].DATEACCT;
+                            var DATEACCT = $gridCashline.get(event.recid).DATEACCT;
                             var ConversnDate = Globalize.format(new Date($conversionDate.val()), "yyyy-MM-dd");
                             DATEACCT = Globalize.format(new Date(DATEACCT), "yyyy-MM-dd");
                             if (ConversnDate != DATEACCT) {
@@ -5121,8 +5121,8 @@
                 }
                 //check weather someone clicked on select column checkbox in grid
                 if ((selectColIndex == event.column || event.column == null) && ((element[0] != undefined) && !(element[0].SelectRow == undefined))) {
-                    //$gridCashline.records[event.recid]["AppliedAmt"] = VIS.Utility.Util.getValueOfDecimal($gridCashline.get(event.recid).Amount);
-                    $gridCashline.records[event.recid]["AppliedAmt"] = VIS.Utility.Util.getValueOfDecimal($gridCashline.get(event.recid).OpenAmt);
+                    //$gridCashline.get(event.recid)["AppliedAmt"] = VIS.Utility.Util.getValueOfDecimal($gridCashline.get(event.recid).Amount);
+                    $gridCashline.get(event.recid)["AppliedAmt"] = VIS.Utility.Util.getValueOfDecimal($gridCashline.get(event.recid).OpenAmt);
                 }
                 tableChanged(event.recid, event.column, false, true);
             }
@@ -5144,7 +5144,7 @@
                 });
                 if (element == null || element[0] == undefined || element.length == 0 || element[0].SelectRow == undefined) {
                     //Set value to 0 when element is null
-                    $glLineGrid.records[event.recid]["AppliedAmt"] = 0;
+                    $glLineGrid.get(event.recid)["AppliedAmt"] = 0;
                     $glLineGrid.refreshCell(event.recid, "AppliedAmt");
                     getMaxDate();
                     //when unselect the record it will remove that record in getGLChanges list.
@@ -5197,7 +5197,7 @@
                                 $glLineGrid.trigger(eData);
                                 return false;
                             }
-                            var DATEACCT = $glLineGrid.records[event.recid].DATEACCT;
+                            var DATEACCT = $glLineGrid.get(event.recid).DATEACCT;
                             var ConversnDate = Globalize.format(new Date($conversionDate.val()), "yyyy-MM-dd");
                             DATEACCT = Globalize.format(new Date(DATEACCT), "yyyy-MM-dd");
                             if (ConversnDate != DATEACCT) {
@@ -5259,7 +5259,7 @@
                 }
                 //check weather someone clicked on select column checkbox in grid
                 if ((selectColIndex == event.column || event.column == null) && ((element[0] != undefined) && !(element[0].SelectRow == undefined))) {
-                    $glLineGrid.records[event.recid]["AppliedAmt"] = VIS.Utility.Util.getValueOfDecimal($glLineGrid.get(event.recid).OpenAmount);
+                    $glLineGrid.get(event.recid)["AppliedAmt"] = VIS.Utility.Util.getValueOfDecimal($glLineGrid.get(event.recid).OpenAmount);
                 }
                 glTableChanged(event.recid, event.column);
             }
@@ -5694,11 +5694,11 @@
                         return;
                     }
                     else {
-                        $gridInvoice.records[event.recid]["AppliedAmt"] = VIS.Utility.Util.getValueOfDecimal($gridInvoice.get(event.recid).Amount);
+                        $gridInvoice.get(event.recid)["AppliedAmt"] = VIS.Utility.Util.getValueOfDecimal($gridInvoice.get(event.recid).Amount);
                     }
                 }
                 else {
-                    $gridInvoice.records[event.recid]["AppliedAmt"] = VIS.Utility.Util.getValueOfDecimal($gridInvoice.get(event.recid).Amount);
+                    $gridInvoice.get(event.recid)["AppliedAmt"] = VIS.Utility.Util.getValueOfDecimal($gridInvoice.get(event.recid).Amount);
                 }
             }
 
