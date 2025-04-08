@@ -3383,47 +3383,47 @@
         //binding GL Grid 
         function bindGLGrid(data, chk) {
             var columns = [];
-            columns.push({ field: "SelectRow", caption: VIS.translatedTexts.VIS_Check, size: '50px', editable: { type: 'checkbox' } });
-            columns.push({ field: "AD_Org_ID", caption: VIS.translatedTexts.AD_Org_ID, size: '85px', hidden: true });
-            columns.push({ field: "OrgName", caption: VIS.translatedTexts.AD_Org_ID, size: '105px', hidden: false, sortable: false });
+            columns.push({ field: "SelectRow", columnName: "SelectRow", caption: VIS.translatedTexts.VIS_Check, size: '50px', editable: { type: 'checkbox' }, sortable: false });
+            columns.push({ field: "AD_Org_ID", columnName: "AD_Org_ID", caption: VIS.translatedTexts.AD_Org_ID, size: '85px', hidden: true });
+            columns.push({ field: "OrgName", columnName: "OrgName", caption: VIS.translatedTexts.AD_Org_ID, size: '105px', hidden: false, sortable: true });
             columns.push({
-                field: "DATEACCT", caption: VIS.translatedTexts.DateAcct, render: function (record, index, col_index) {
+                field: "DATEACCT", columnName: "DATEACCT", caption: VIS.translatedTexts.DateAcct, render: function (record, index, col_index) {
                     var val = record["DATEACCT"];
                     return new Date(val).toLocaleDateString();
-                }, size: '105px', hidden: false, sortable: false
+                }, size: '105px', hidden: false, sortable: true
             });
-            columns.push({ field: "DOCUMENTNO", caption: VIS.translatedTexts.DocumentNo, size: '120px', hidden: false, sortable: false });
+            columns.push({ field: "DOCUMENTNO", columnName: "DOCUMENTNO", caption: VIS.translatedTexts.DocumentNo, size: '120px', hidden: false, sortable: true });
             //added new Column Account - on 24/09/2020
-            columns.push({ field: "Account", caption: VIS.translatedTexts.Account, size: '150px', hidden: false, sortable: false });
-            columns.push({ field: "Isocode", caption: VIS.translatedTexts.TrxCurrency, size: '105px', hidden: false });
-            columns.push({ field: "ConversionName", caption: VIS.translatedTexts.C_ConversionType_ID, size: '105px', hidden: false, sortable: false });
+            columns.push({ field: "Account", columnName: "Account", caption: VIS.translatedTexts.Account, size: '150px', hidden: false, sortable: true });
+            columns.push({ field: "Isocode", columnName: "Isocode", caption: VIS.translatedTexts.TrxCurrency, size: '105px', hidden: false, sortable: true });
+            columns.push({ field: "ConversionName", columnName: "ConversionName", caption: VIS.translatedTexts.C_ConversionType_ID, size: '105px', hidden: false, sortable: true });
             columns.push({
-                field: "ConvertedAmount", caption: VIS.Msg.getMsg("Amount"), attr: 'align=right', size: '150px', hidden: false, sortable: false, render: function (record, index, col_index) {
+                field: "ConvertedAmount", columnName: "ConvertedAmount", caption: VIS.Msg.getMsg("Amount"), attr: 'align=right', size: '150px', hidden: false, sortable: true, render: function (record, index, col_index) {
                     var val = record["ConvertedAmount"];
                     return parseFloat(val).toLocaleString(navigator.language, { maximumFractionDigits: stdPrecision, minimumFractionDigits: stdPrecision });
                 }
             });
             columns.push({
-                field: "OpenAmount", caption: VIS.translatedTexts.OpenAmount, attr: 'align=right', size: '150px', hidden: false, sortable: false, render: function (record, index, col_index) {
+                field: "OpenAmount", columnName: "OpenAmount", caption: VIS.translatedTexts.OpenAmount, attr: 'align=right', size: '150px', hidden: false, sortable: true, render: function (record, index, col_index) {
                     var val = record["OpenAmount"];
                     return parseFloat(val).toLocaleString(navigator.language, { maximumFractionDigits: stdPrecision, minimumFractionDigits: stdPrecision });
                 }
             });
             columns.push({
-                field: "AppliedAmt", caption: VIS.translatedTexts.AppliedAmount, size: '150px', attr: 'align=right', hidden: false, sortable: false, render: function (record, index, col_index) {
+                field: "AppliedAmt", columnName: "AppliedAmt", caption: VIS.translatedTexts.AppliedAmount, size: '150px', attr: 'align=right', hidden: false, sortable: true, render: function (record, index, col_index) {
                     var val = record["AppliedAmt"];
                     return parseFloat(val).toLocaleString(navigator.language, { maximumFractionDigits: stdPrecision, minimumFractionDigits: stdPrecision });
                 }
             });
             columns.push({
-                field: "DATEDOC", caption: VIS.translatedTexts.Date, render: function (record, index, col_index) {
+                field: "DATEDOC", columnName: "DATEDOC", caption: VIS.translatedTexts.Date, render: function (record, index, col_index) {
                     var val = record["DATEDOC"];
                     return new Date(val).toLocaleDateString();
                 }, size: '80px', hidden: true
             });
-            columns.push({ field: "GL_JOURNALLINE_ID", caption: VIS.translatedTexts.GL_JOURNALLINE_ID, size: '150px', hidden: true });
-            columns.push({ field: "C_ConversionType_ID", caption: VIS.translatedTexts.C_ConversionType_ID, size: '85px', hidden: true });
-            columns.push({ field: "GL_Journal_ID", caption: VIS.translatedTexts.C_ConversionType_ID, size: '85px', hidden: true });
+            columns.push({ field: "GL_JOURNALLINE_ID", columnName: "GL_JOURNALLINE_ID", caption: VIS.translatedTexts.GL_JOURNALLINE_ID, size: '150px', hidden: true });
+            columns.push({ field: "C_ConversionType_ID", columnName: "C_ConversionType_ID", caption: VIS.translatedTexts.C_ConversionType_ID, size: '85px', hidden: true });
+            columns.push({ field: "GL_Journal_ID", columnName: "GL_Journal_ID", caption: VIS.translatedTexts.C_ConversionType_ID, size: '85px', hidden: true });
 
             var rows = [];
 
@@ -3538,56 +3538,56 @@
         //render to culture format
         function bindPaymentGrid(data, chk) {
             var columns = [];
-            columns.push({ field: 'SelectRow', caption: VIS.translatedTexts.VIS_Check, size: '50px', editable: { type: 'checkbox' } });
-            columns.push({ field: "AD_Org_ID", caption: VIS.translatedTexts.AD_Org_ID, size: '85px', hidden: true });
-            columns.push({ field: "OrgName", caption: VIS.translatedTexts.AD_Org_ID, size: '85px', hidden: false });
+            columns.push({ field: 'SelectRow', columnName: "SelectRow", caption: VIS.translatedTexts.VIS_Check, size: '50px', editable: { type: 'checkbox' }, sortable: false });
+            columns.push({ field: "AD_Org_ID", columnName: "AD_Org_ID", caption: VIS.translatedTexts.AD_Org_ID, size: '85px', hidden: true });
+            columns.push({ field: "OrgName", columnName: "OrgName", caption: VIS.translatedTexts.AD_Org_ID, size: '85px', hidden: false, sortable: true });
             columns.push({
-                field: "DATEACCT", caption: VIS.translatedTexts.DateAcct, size: '85px', hidden: false, render: function (record, index, col_index) {
+                field: "DATEACCT", columnName: "DATEACCT", caption: VIS.translatedTexts.DateAcct, size: '85px', hidden: false, sortable: true, render: function (record, index, col_index) {
                     var val = record["DATEACCT"];
                     return new Date(val).toLocaleDateString();
                 }
             });
-            columns.push({ field: "Documentno", caption: VIS.translatedTexts.DocumentNo, size: '120px', hidden: false });
-            columns.push({ field: "DocBaseType", caption: VIS.translatedTexts.DocBaseType, size: '120px', hidden: false });
+            columns.push({ field: "Documentno", columnName: "Documentno", caption: VIS.translatedTexts.DocumentNo, size: '120px', hidden: false, sortable: true });
+            columns.push({ field: "DocBaseType", columnName: "DocBaseType", caption: VIS.translatedTexts.DocBaseType, size: '120px', hidden: false, sortable: true });
             //new column payment menthod name added into grid
-            columns.push({ field: "PayName", caption: VIS.translatedTexts.PaymentMethod, size: '120px', hidden: false });
+            columns.push({ field: "PayName", columnName: "PayName", caption: VIS.translatedTexts.PaymentMethod, size: '120px', hidden: false, sortable: true });
             //if (chk) {
             //    columns.push({ field: "Isocode", caption: VIS.translatedTexts.TrxCurrency, size: '85px', hidden: false });
             //}
             //else {
-            columns.push({ field: "Isocode", caption: VIS.translatedTexts.TrxCurrency, size: '85px', hidden: false });
+            columns.push({ field: "Isocode", columnName: "Isocode", caption: VIS.translatedTexts.TrxCurrency, size: '85px', hidden: false, sortable: true });
             //}
-            columns.push({ field: "ConversionName", caption: VIS.translatedTexts.C_ConversionType_ID, size: '85px', hidden: false });
+            columns.push({ field: "ConversionName", columnName: "ConversionName", caption: VIS.translatedTexts.C_ConversionType_ID, size: '85px', hidden: false, sortable: true });
             if (chk) {
                 //render column into float with culture format
                 columns.push({
-                    field: "Payment", caption: VIS.translatedTexts.Amount, size: '150px', attr: 'align=right', hidden: false, render: function (record, index, col_index) {
+                    field: "Payment", columnName: "Payment", caption: VIS.translatedTexts.Amount, size: '150px', attr: 'align=right', hidden: false, sortable: true, render: function (record, index, col_index) {
                         var val = record["Payment"];
                         return parseFloat(val).toLocaleString(navigator.language, { minimumFractionDigits: stdPrecision, maximumFractionDigits: stdPrecision });
                     }
                 });
             }
             else {
-                columns.push({ field: "Payment", caption: VIS.translatedTexts.Amount, size: '150px', hidden: true });
+                columns.push({ field: "Payment", columnName: "Payment", caption: VIS.translatedTexts.Amount, size: '150px', hidden: true });
             }
             //render column into float with culture format
             columns.push({
-                field: "ConvertedAmount", caption: VIS.translatedTexts.ConvertedAmount, size: '150px', attr: 'align=right', hidden: false, render: function (record, index, col_index) {
+                field: "ConvertedAmount", columnName: "ConvertedAmount", caption: VIS.translatedTexts.ConvertedAmount, size: '150px', attr: 'align=right', hidden: false, sortable: true, render: function (record, index, col_index) {
                     var val = record["ConvertedAmount"];
                     return parseFloat(val).toLocaleString(navigator.language, { minimumFractionDigits: stdPrecision, maximumFractionDigits: stdPrecision });
                 }
             });
             //render column into float with culture format
             columns.push({
-                field: "OpenAmt", caption: VIS.translatedTexts.OpenAmount, size: '150px', attr: 'align=right', hidden: false, render: function (record, index, col_index) {
+                field: "OpenAmt", columnName: "OpenAmt", caption: VIS.translatedTexts.OpenAmount, size: '150px', attr: 'align=right', hidden: false, sortable: true, render: function (record, index, col_index) {
                     var val = record["OpenAmt"];
                     return parseFloat(val).toLocaleString(navigator.language, { minimumFractionDigits: stdPrecision, maximumFractionDigits: stdPrecision });
                 }
             });
-            columns.push({ field: "Multiplierap", caption: VIS.translatedTexts.multiplierap, size: '150px', hidden: true });
+            columns.push({ field: "Multiplierap", columnName: "Multiplierap", caption: VIS.translatedTexts.multiplierap, size: '150px', hidden: true });
             //render column into float with culture format
             columns.push({
-                field: "AppliedAmt", caption: VIS.translatedTexts.AppliedAmount, size: '150px', attr: 'align=right', hidden: false, render: function (record, index, col_index) {
+                field: "AppliedAmt", columnName: "AppliedAmt", caption: VIS.translatedTexts.AppliedAmount, size: '150px', attr: 'align=right', hidden: false, sortable: true, render: function (record, index, col_index) {
 
                     var val = record["AppliedAmt"];
                     val = checkcommaordot(event, val, val);
@@ -3595,13 +3595,13 @@
                 }, editable: { type: 'number' }
             });
             columns.push({
-                field: "Date1", caption: VIS.translatedTexts.Date, size: '80px', hidden: true, render: function (record, index, col_index) {
+                field: "Date1", columnName: "Date1", caption: VIS.translatedTexts.Date, size: '80px', hidden: true, render: function (record, index, col_index) {
                     var val = record["Date1"];
                     return new Date(val).toLocaleDateString();
                 }
             });
-            columns.push({ field: "CpaymentID", caption: VIS.translatedTexts.c_payment_id, size: '150px', hidden: true });
-            columns.push({ field: "C_ConversionType_ID", caption: VIS.translatedTexts.C_ConversionType_ID, size: '85px', hidden: true });
+            columns.push({ field: "CpaymentID", columnName: "CpaymentID", caption: VIS.translatedTexts.c_payment_id, size: '150px', hidden: true });
+            columns.push({ field: "C_ConversionType_ID", columnName: "C_ConversionType_ID", caption: VIS.translatedTexts.C_ConversionType_ID, size: '85px', hidden: true });
 
             var rows = [];
 
@@ -3759,56 +3759,56 @@
         //culture work
         function bindCashline(data, chk) {
             var columns = [];
-            columns.push({ field: 'SelectRow', caption: VIS.translatedTexts.VIS_Check, size: '50px', editable: { type: 'checkbox' } });
-            columns.push({ field: "AD_Org_ID", caption: VIS.translatedTexts.AD_Org_ID, size: '85px', hidden: true });
-            columns.push({ field: "OrgName", caption: VIS.translatedTexts.AD_Org_ID, size: '105px', hidden: false });
+            columns.push({ field: 'SelectRow', columnName: "SelectRow", caption: VIS.translatedTexts.VIS_Check, size: '50px', editable: { type: 'checkbox' }, sortable: false });
+            columns.push({ field: "AD_Org_ID", columnName: "AD_Org_ID", caption: VIS.translatedTexts.AD_Org_ID, size: '85px', hidden: true, sortable: true });
+            columns.push({ field: "OrgName", columnName: "OrgName", caption: VIS.translatedTexts.AD_Org_ID, size: '105px', hidden: false, sortable: true });
             columns.push({
-                field: "DATEACCT", caption: VIS.translatedTexts.DateAcct, size: '105px', hidden: false, render: function (record, index, col_index) {
+                field: "DATEACCT", columnName: "DATEACCT", caption: VIS.translatedTexts.DateAcct, size: '105px', hidden: false, sortable: true, render: function (record, index, col_index) {
                     var val = record["DATEACCT"];
                     return new Date(val).toLocaleDateString();
                 }
             });
-            columns.push({ field: "ReceiptNo", caption: VIS.translatedTexts.RECEIPTNO, size: '120px', hidden: false });
-            columns.push({ field: "VSS_paymenttype", caption: "Payment ID", size: '120px', hidden: true });
-            columns.push({ field: "Payment", caption: "Payment Type", size: '120px', hidden: false });
-            columns.push({ field: "Isocode", caption: VIS.Msg.getMsg("TrxCurrency"), size: '105px', hidden: false });
-            columns.push({ field: "ConversionName", caption: VIS.translatedTexts.C_ConversionType_ID, size: '105px', hidden: false });
+            columns.push({ field: "ReceiptNo", columnName: "ReceiptNo", caption: VIS.translatedTexts.RECEIPTNO, size: '120px', hidden: false, sortable: true });
+            columns.push({ field: "VSS_paymenttype", columnName: "VSS_paymenttype", caption: "Payment ID", size: '120px', hidden: true });
+            columns.push({ field: "Payment", columnName: "Payment", caption: "Payment Type", size: '120px', hidden: false, sortable: true });
+            columns.push({ field: "Isocode", columnName: "Isocode", caption: VIS.Msg.getMsg("TrxCurrency"), size: '105px', hidden: false, sortable: true });
+            columns.push({ field: "ConversionName", columnName: "ConversionName", caption: VIS.translatedTexts.C_ConversionType_ID, size: '105px', hidden: false, sortable: true });
             if (chk) {
                 //render column into float with culture format
                 columns.push({
-                    field: "Amount", caption: VIS.translatedTexts.Amount, size: '150px', attr: 'align=right', hidden: false, render: function (record, index, col_index) {
+                    field: "Amount", columnName: "Amount", caption: VIS.translatedTexts.Amount, size: '150px', attr: 'align=right', hidden: false, sortable: true, render: function (record, index, col_index) {
                         var val = record["Amount"];
                         return parseFloat(val).toLocaleString(navigator.language, { minimumFractionDigits: stdPrecision, maximumFractionDigits: stdPrecision });
                     }
                 });
             }
             else {
-                columns.push({ field: "Amount", caption: VIS.translatedTexts.Amount, size: '150px', hidden: true });
+                columns.push({ field: "Amount", columnName: "Amount", caption: VIS.translatedTexts.Amount, size: '150px', hidden: true });
             }
             //render column into float with culture format
             columns.push({
-                field: "ConvertedAmount", caption: VIS.Msg.getMsg("ConvertedAmount"), size: '150px', attr: 'align=right', hidden: false, render: function (record, index, col_index) {
+                field: "ConvertedAmount", columnName: "ConvertedAmount", caption: VIS.Msg.getMsg("ConvertedAmount"), size: '150px', attr: 'align=right', hidden: false, sortable: true, render: function (record, index, col_index) {
                     var val = record["ConvertedAmount"];
                     return parseFloat(val).toLocaleString(navigator.language, { minimumFractionDigits: stdPrecision, maximumFractionDigits: stdPrecision });
                 }
             });
             //render column into float with culture format
             columns.push({
-                field: "OpenAmt", caption: VIS.translatedTexts.OpenAmount, size: '150px', hidden: false, attr: 'align=right', render: function (record, index, col_index) {
+                field: "OpenAmt", columnName: "OpenAmt", caption: VIS.translatedTexts.OpenAmount, size: '150px', hidden: false, attr: 'align=right', sortable: true, render: function (record, index, col_index) {
                     var val = record["OpenAmt"];
                     return parseFloat(val).toLocaleString(navigator.language, { minimumFractionDigits: stdPrecision, maximumFractionDigits: stdPrecision });
                 }
             });
             //render column into float with culture format
             columns.push({
-                field: "AppliedAmt", caption: VIS.translatedTexts.AppliedAmount, size: '150px', attr: 'align=right', hidden: false, render: function (record, index, col_index) {
+                field: "AppliedAmt", columnName: "AppliedAmt", caption: VIS.translatedTexts.AppliedAmount, size: '150px', attr: 'align=right', hidden: false, sortable: true, render: function (record, index, col_index) {
                     var val = record["AppliedAmt"];
                     val = checkcommaordot(event, val, val);
                     return parseFloat(val).toLocaleString(navigator.language, { maximumFractionDigits: stdPrecision, minimumFractionDigits: stdPrecision });
                 }, editable: { type: 'number' }
             });
             columns.push({
-                field: "Created", caption: VIS.translatedTexts.Date, size: '80px', hidden: true, render: function (record, index, col_index) {
+                field: "Created", columnName: "Created", caption: VIS.translatedTexts.Date, size: '80px', hidden: true, sortable: true, render: function (record, index, col_index) {
                     var val = record["Created"];
                     return new Date(val).toLocaleDateString();
                 }
@@ -3831,9 +3831,9 @@
             //else {
             //    columns.push({ field: "Amount", caption: VIS.translatedTexts.Amount, size: '150px', hidden: true });
             //}
-            columns.push({ field: "CcashlineiID", caption: VIS.translatedTexts.ccashlineid, size: '150px', hidden: true });
-            columns.push({ field: "Multiplierap", caption: VIS.translatedTexts.multiplierap, hidden: true });
-            columns.push({ field: "C_ConversionType_ID", caption: VIS.translatedTexts.C_ConversionType_ID, size: '85px', hidden: true });
+            columns.push({ field: "CcashlineiID", columnName: "CcashlineiID", caption: VIS.translatedTexts.ccashlineid, size: '150px', hidden: true });
+            columns.push({ field: "Multiplierap", columnName: "Multiplierap", caption: VIS.translatedTexts.multiplierap, hidden: true });
+            columns.push({ field: "C_ConversionType_ID", columnName: "C_ConversionType_ID", caption: VIS.translatedTexts.C_ConversionType_ID, size: '85px', hidden: true });
             var rows = [];
 
             var colkeys = [];
@@ -4038,78 +4038,79 @@
         //Invoice grid bind
         function bindInvoiceGrid(data, chk) {
             var columns = [];
-            columns.push({ field: 'SelectRow', caption: VIS.translatedTexts.VIS_Check, size: '50px', editable: { type: 'checkbox' } });
-            columns.push({ field: "AD_Org_ID", caption: VIS.translatedTexts.AD_Org_ID, size: '85px', hidden: true });
-            columns.push({ field: "OrgName", caption: VIS.translatedTexts.AD_Org_ID, size: '105px', hidden: false });
+            columns.push({ field: 'SelectRow', columnName: "SelectRow", caption: VIS.translatedTexts.VIS_Check, size: '50px', editable: { type: 'checkbox' }, sortable: false });
+            columns.push({ field: "AD_Org_ID", columnName: "AD_Org_ID", caption: VIS.translatedTexts.AD_Org_ID, size: '85px', hidden: true });
+            columns.push({ field: "OrgName", columnName: "OrgName", caption: VIS.translatedTexts.AD_Org_ID, size: '105px', hidden: false, sortable: true });
             columns.push({
-                field: "DATEACCT", caption: VIS.translatedTexts.DateAcct, size: '105px', hidden: false, render: function (record, index, col_index) {
+                field: "DATEACCT", columnName: "DATEACCT", caption: VIS.translatedTexts.DateAcct, size: '105px', hidden: false, sortable: true, render: function (record, index, col_index) {
                     var val = record["DATEACCT"];
                     return new Date(val).toLocaleDateString();
                 }
             });
-            columns.push({ field: "Documentno", caption: VIS.translatedTexts.DocumentNo, size: '120px', hidden: false });
+            columns.push({ field: "Documentno", columnName: "Documentno", caption: VIS.translatedTexts.DocumentNo, size: '120px', hidden: false, sortable: true });
             columns.push({
-                field: "InvoiceScheduleDate", caption: VIS.translatedTexts.ScheduleDate, size: '100px', hidden: false, render: function (record, index, col_index) {
+                field: "InvoiceScheduleDate", columnName: "InvoiceScheduleDate", caption: VIS.translatedTexts.ScheduleDate, size: '100px', hidden: false, sortable: true, render: function (record, index, col_index) {
                     var val = record["InvoiceScheduleDate"];
                     return new Date(val).toLocaleDateString();
                 }
             });
-            columns.push({ field: "DocBaseType", caption: VIS.translatedTexts.DocBaseType, size: '120px', hidden: false });
+            columns.push({ field: "DocBaseType", columnName: "DocBaseType", caption: VIS.translatedTexts.DocBaseType, size: '120px', hidden: false, sortable: true });
             //new column payment method name added into grid
-            columns.push({ field: "PayName", caption: VIS.translatedTexts.PaymentMethod, size: '120px', hidden: false });
-            columns.push({ field: "Isocode", caption: VIS.Msg.getMsg("TrxCurrency"), size: '85px', hidden: false });
-            columns.push({ field: "ConversionName", caption: VIS.translatedTexts.C_ConversionType_ID, size: '85px', hidden: false });
+            columns.push({ field: "PayName", columnName: "PayName", caption: VIS.translatedTexts.PaymentMethod, size: '120px', hidden: false, sortable: true });
+            columns.push({ field: "Isocode", columnName: "Isocode", caption: VIS.Msg.getMsg("TrxCurrency"), size: '85px', hidden: false, sortable: true });
+            columns.push({ field: "ConversionName", columnName: "ConversionName", caption: VIS.translatedTexts.C_ConversionType_ID, size: '85px', hidden: false, sortable: true });
             if (chk) {
                 //render column into float with culture format
                 columns.push({
-                    field: "Currency", caption: VIS.translatedTexts.Amount, size: '100px', attr: 'align=right', hidden: false, render: function (record, index, col_index) {
+                    field: "Currency", columnName: "Currency", caption: VIS.translatedTexts.Amount, size: '100px', attr: 'align=right', hidden: false, sortable: true, render: function (record, index, col_index) {
                         var val = record["Currency"];
                         return parseFloat(val).toLocaleString(navigator.language, { minimumFractionDigits: stdPrecision, maximumFractionDigits: stdPrecision });
+
                     }
                 });
             }
             else {
-                columns.push({ field: "Currency", caption: VIS.translatedTexts.Amount, size: '100px', hidden: true });
+                columns.push({ field: "Currency", columnName: "Currency", caption: VIS.translatedTexts.Amount, size: '100px', hidden: true });
             }
             //render column into float with culture format
             columns.push({
-                field: "Converted", caption: VIS.Msg.getMsg("ConvertedAmount"), size: '100px', hidden: false, attr: 'align=right', render: function (record, index, col_index) {
+                field: "Converted", columnName: "Converted", caption: VIS.Msg.getMsg("ConvertedAmount"), size: '100px', hidden: false, sortable: true, attr: 'align=right', render: function (record, index, col_index) {
                     var val = record["Converted"];
                     return parseFloat(val).toLocaleString(navigator.language, { minimumFractionDigits: stdPrecision, maximumFractionDigits: stdPrecision });
                 }
             });
             //render column into float with culture format
             columns.push({
-                field: "Amount", caption: VIS.translatedTexts.OpenAmount, size: '100px', hidden: false, attr: 'align=right', render: function (record, index, col_index) {
+                field: "Amount", columnName: "Amount", caption: VIS.translatedTexts.OpenAmount, size: '100px', hidden: false, sortable: true, attr: 'align=right', render: function (record, index, col_index) {
                     var val = record["Amount"];
                     return parseFloat(val).toLocaleString(navigator.language, { minimumFractionDigits: stdPrecision, maximumFractionDigits: stdPrecision });
                 }
             });
             //render column into float with culture format
             columns.push({
-                field: "Discount", caption: VIS.translatedTexts.DiscountAmt, size: '100px', hidden: false, attr: 'align=right', render: function (record, index, col_index) {
+                field: "Discount", columnName: "Discount", caption: VIS.translatedTexts.DiscountAmt, size: '100px', hidden: false, sortable: true, attr: 'align=right', render: function (record, index, col_index) {
                     var val = record["Discount"];
                     val = checkcommaordot(event, val, val);
                     return parseFloat(val).toLocaleString(navigator.language, { minimumFractionDigits: stdPrecision, maximumFractionDigits: stdPrecision });
                 }, editable: { type: 'number' }
             });
             columns.push({
-                field: "Date1", caption: VIS.translatedTexts.Date, size: '80px', hidden: true, render: function (record, index, col_index) {
+                field: "Date1", columnName: "Date1", caption: VIS.translatedTexts.Date, size: '80px', hidden: true, render: function (record, index, col_index) {
                     var val = record["Date1"];
                     return new Date(val).toLocaleDateString();
                 }
             });
-            columns.push({ field: "CinvoiceID", caption: VIS.translatedTexts.cinvoiceid, size: '150px', hidden: true });
+            columns.push({ field: "CinvoiceID", columnName: "AD_Org_ID", caption: VIS.translatedTexts.cinvoiceid, size: '150px', hidden: true });
             //if (chk) {
             //    columns.push({ field: "Isocode", caption: VIS.Msg.getMsg("TrxCurrency"), size: '85px', hidden: false });
             //}
             //else {
             //    columns.push({ field: "Isocode", caption: VIS.Msg.getMsg("TrxCurrency"), size: '85px', hidden: true });
             //}
-            columns.push({ field: "Multiplierap", caption: VIS.translatedTexts.multiplierap, hidden: true });
+            columns.push({ field: "Multiplierap", columnName: "Multiplierap", caption: VIS.translatedTexts.multiplierap, hidden: true });
             //render column into float with culture format
             columns.push({
-                field: "Writeoff", caption: VIS.translatedTexts.WriteOffAmount, size: '100px', attr: 'align=right', hidden: false, render: function (record, index, col_index) {
+                field: "Writeoff", columnName: "Writeoff", caption: VIS.translatedTexts.WriteOffAmount, size: '100px', attr: 'align=right', hidden: false, sortable: true, render: function (record, index, col_index) {
                     var val = record["Writeoff"];
                     val = checkcommaordot(event, val, val);
                     return parseFloat(val).toLocaleString(navigator.language, { minimumFractionDigits: stdPrecision, maximumFractionDigits: stdPrecision });
@@ -4117,16 +4118,16 @@
             });
             //render column into float with culture format
             columns.push({
-                field: "AppliedAmt", caption: VIS.translatedTexts.AppliedAmount, size: '100px', hidden: false, attr: 'align=right', render: function (record, index, col_index) {
+                field: "AppliedAmt", columnName: "AppliedAmt", caption: VIS.translatedTexts.AppliedAmount, size: '100px', hidden: false, sortable: true, attr: 'align=right', render: function (record, index, col_index) {
                     var val = record["AppliedAmt"];
                     val = checkcommaordot(event, val, val);
                     return parseFloat(val).toLocaleString(navigator.language, { minimumFractionDigits: stdPrecision, maximumFractionDigits: stdPrecision });
                 }, editable: { type: 'number' }
             });
             if (countVA009 > 0) {
-                columns.push({ field: "C_InvoicePaySchedule_ID", caption: VIS.translatedTexts.C_InvoicePaySchedule_ID, size: '100px', hidden: true });
+                columns.push({ field: "C_InvoicePaySchedule_ID", columnName: "C_InvoicePaySchedule_ID", caption: VIS.translatedTexts.C_InvoicePaySchedule_ID, size: '100px', hidden: true });
             }
-            columns.push({ field: "C_ConversionType_ID", caption: VIS.translatedTexts.C_ConversionType_ID, size: '85px', hidden: true });
+            columns.push({ field: "C_ConversionType_ID", columnName: "C_ConversionType_ID", caption: VIS.translatedTexts.C_ConversionType_ID, size: '85px', hidden: true });
 
             var rows = [];
 
