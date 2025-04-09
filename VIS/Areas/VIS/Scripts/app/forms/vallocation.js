@@ -5359,7 +5359,7 @@
             }
             //when AppliedAmt cell changed then only this function will call
             if (colIndex == event.column) {
-                tableChanged(event.index, event.column, false, false);
+                tableChanged(event.recid, event.column, false, false);
             }
         };
 
@@ -5409,7 +5409,7 @@
                 else {
                     $glLineGrid.set(0, { "AppliedAmt": $glLineGrid.get(event.recid).OpenAmount });
                 }
-                glTableChanged(event.index, event.column);
+                glTableChanged(event.recid, event.column);
             }
             //calculate();
         };
@@ -5496,7 +5496,7 @@
             }
             //when AppliedAmt cell changed then only this function will call
             if (colIndex == event.column) {
-                tableChanged(event.index, event.column, false, true);
+                tableChanged(event.recid, event.column, false, true);
             }
         };
 
@@ -5706,7 +5706,7 @@
                 || event.column == $gridInvoice.getColumn('Writeoff', true)
                 || event.column == $gridInvoice.getColumn('AppliedAmt', true)) {
 
-                tableChanged(event.index, event.column, true, false);
+                tableChanged(event.recid, event.column, true, false);
 
             }
         };
@@ -5733,7 +5733,7 @@
 
                     if (colPayCheck) {
                         // prepared same array for grid when we select any payment from payment grid and push that object into selected payment array.
-                        var record = $gridPayment.records[row];
+                        var record = $gridPayment.get(row);
                         var rcdRow = {
                             SelectRow: record.SelectRow,
                             //InvoiceRecord: changes.InvoiceRecord,
@@ -5793,14 +5793,14 @@
                         //    }
                         //}
                         for (var x = 0; x < selectedPayments.length; x++) {
-                            if (selectedPayments[x].CpaymentID == $gridPayment.records[row].CpaymentID) {
+                            if (selectedPayments[x].CpaymentID == $gridPayment.get(row).CpaymentID) {
                                 selectedPayments.splice(x, 1);
                             }
                         }
                         if (payemntCol == "AppliedAmt") {
                             if (changes != null && changes != undefined) {
                                 changes.AppliedAmt = amount;
-                                $gridPayment.records[row]["AppliedAmt"] = 0;
+                                $gridPayment.get(row)["AppliedAmt"] = 0;
                                 $gridPayment.refreshCell(row, "AppliedAmt");
                             }
                         }
@@ -5852,7 +5852,7 @@
                     if (colCashCheck) {
 
                         // prepared same array for grid when we select any cash line from cash line grid and push that object into selected cash line array.
-                        var record = $gridCashline.records[row];
+                        var record = $gridCashline.get(row);
                         //debugger;
                         var rcdRow = {
                             SelectRow: record.SelectRow,
@@ -5907,14 +5907,14 @@
                         //    }
                         //}
                         for (var x = 0; x < selectedCashlines.length; x++) {
-                            if (selectedCashlines[x].CcashlineiID == $gridCashline.records[row].CcashlineiID) {
+                            if (selectedCashlines[x].CcashlineiID == $gridCashline.get(row).CcashlineiID) {
                                 selectedCashlines.splice(x, 1);
                             }
                         }
                         if (payemntCol == "AppliedAmt") {
                             if (changes != null && changes != undefined) {
                                 changes.AppliedAmt = amount;
-                                $gridCashline.records[row]["AppliedAmt"] = 0;
+                                $gridCashline.get(row)["AppliedAmt"] = 0;
                                 $gridCashline.refreshCell(row, "AppliedAmt");
                             }
                         }
@@ -5967,7 +5967,7 @@
                 if (colInvCheck) {
 
                     // prepared same array for grid when we select any invoice from invoice grid and push that object into selected invoice array.
-                    var record = $gridInvoice.records[row];
+                    var record = $gridInvoice.get(row);
                     var rcdRow = {
                         SelectRow: record.SelectRow,
                         InvoiceRecord: record.InvoiceRecord,
@@ -6025,7 +6025,7 @@
                 {
                     // remove invoice schedule from array when we de-select any schedule from invoice grid.
                     for (var x = 0; x < selectedInvoices.length; x++) {
-                        if (selectedInvoices[x].C_InvoicePaySchedule_ID == $gridInvoice.records[row].C_InvoicePaySchedule_ID) {
+                        if (selectedInvoices[x].C_InvoicePaySchedule_ID == $gridInvoice.get(row).C_InvoicePaySchedule_ID) {
                             selectedInvoices.splice(x, 1);
                         }
                     }
@@ -6037,7 +6037,7 @@
                             changes.Discount = amount;                            //Discount---//get column index from grid
                             _discount = getIndexFromArray(columns, "Discount");
                             //changes.Discount = parseFloat($gridInvoice.get(row)[columns[_discount].field]);
-                            $gridInvoice.records[row]["AppliedAmt"] = 0;
+                            $gridInvoice.get(row)["AppliedAmt"] = 0;
                             $gridInvoice.refreshCell(row, "Writeoff");
                             $gridInvoice.refreshCell(row, "AppliedAmt");
                             $gridInvoice.refreshCell(row, "Discount");
@@ -6173,14 +6173,14 @@
                 {
                     //de-select from SelectedGL list.
                     for (var x = 0; x < SelectedGL.length; x++) {
-                        if (SelectedGL[x].GL_JOURNALLINE_ID == $glLineGrid.records[row].GL_JOURNALLINE_ID) {
+                        if (SelectedGL[x].GL_JOURNALLINE_ID == $glLineGrid.get(row).GL_JOURNALLINE_ID) {
                             SelectedGL.splice(x, 1);
                         }
                     }
                     if (payemntCol == "AppliedAmt") {
                         if (changes != null && changes != undefined) {
                             changes.AppliedAmt = amount;
-                            $glLineGrid.records[row]["AppliedAmt"] = 0;
+                            $glLineGrid.get(row)["AppliedAmt"] = 0;
                             $glLineGrid.refreshCell(row, "AppliedAmt");
                         }
                     }
@@ -6304,9 +6304,9 @@
                 }
                 else {
                     if ($gridPayment.getChanges()[i].SelectRow == true) {
-                        var row = $gridPayment.records[$gridPayment.getChanges()[i].recid].DATEACCT;
+                        var row = $gridPayment.get($gridPayment.getChanges()[i].recid).DATEACCT;
                         _allDates.push(new Date(row));
-                        var DATEACCT = $gridPayment.records[$gridPayment.getChanges()[i].recid].DATEACCT;
+                        var DATEACCT = $gridPayment.get($gridPayment.getChanges()[i].recid).DATEACCT;
                         _dateAcct.push(new Date(DATEACCT));
                         $dateAcct.val(Globalize.format(new Date(Math.max.apply(null, _dateAcct)), "yyyy-MM-dd"));
                         //_dateAcct = [];
@@ -6318,10 +6318,10 @@
                 }
                 else {
                     if ($gridInvoice.getChanges()[i].SelectRow == true) {
-                        var row = $gridInvoice.records[$gridInvoice.getChanges()[i].recid].Date1; //changed schedule date to invoice date suggested by Mukesh sir, ravi and amit.
+                        var row = $gridInvoice.get($gridInvoice.getChanges()[i].recid).Date1; //changed schedule date to invoice date suggested by Mukesh sir, ravi and amit.
                         _allDates.push(new Date(row));
                         if ($gridPayment.getChanges().length == 0 && $gridCashline.getChanges().length == 0 && $glLineGrid.getChanges().length == 0) {
-                            var DATEACCT = $gridInvoice.records[$gridInvoice.getChanges()[i].recid].DATEACCT;
+                            var DATEACCT = $gridInvoice.get($gridInvoice.getChanges()[i].recid).DATEACCT;
                             _dateAcct.push(new Date(DATEACCT));
                             $dateAcct.val(Globalize.format(new Date(Math.max.apply(null, _dateAcct)), "yyyy-MM-dd"));
                         }
@@ -6333,10 +6333,10 @@
                 }
                 else {
                     if ($gridCashline.getChanges()[i].SelectRow == true) {
-                        var row = $gridCashline.records[$gridCashline.getChanges()[i].recid].DATEACCT;
+                        var row = $gridCashline.get(gridCashline.getChanges()[i].recid).DATEACCT;
                         _allDates.push(new Date(row));
                         if ($gridPayment.getChanges().length == 0 && $gridInvoice.getChanges().length == 0 && $glLineGrid.getChanges().length == 0) {
-                            var DATEACCT = $gridCashline.records[$gridCashline.getChanges()[i].recid].DATEACCT;
+                            var DATEACCT = $gridCashline.get($gridCashline.getChanges()[i].recid).DATEACCT;
                             _dateAcct.push(new Date(DATEACCT));
                             $dateAcct.val(Globalize.format(new Date(Math.max.apply(null, _dateAcct)), "yyyy-MM-dd"));
                         }
@@ -6507,9 +6507,9 @@
                 }
                 else {
                     if ($gridPayment.getChanges()[i].SelectRow == true) {
-                        var row = $gridPayment.records[$gridPayment.getChanges()[i].recid].DATEACCT;
+                        var row = $gridPayment.get($gridPayment.getChanges()[i].recid).DATEACCT;
                         // check org matched or not 
-                        if (isOrgMatched && parseInt($cmbOrg.val()) != parseInt($gridPayment.records[$gridPayment.getChanges()[i].recid].AD_Org_ID)) {
+                        if (isOrgMatched && parseInt($cmbOrg.val()) != parseInt($gridPayment.get($gridPayment.getChanges()[i].recid).AD_Org_ID)) {
                             isOrgMatched = false;
                         }
                         _allDates.push(new Date(row));
@@ -6521,9 +6521,9 @@
                 }
                 else {
                     if ($gridInvoice.getChanges()[i].SelectRow == true) {
-                        var row = $gridInvoice.records[$gridInvoice.getChanges()[i].recid].Date1; //changed schedule date to invoice date suggested by Mukesh sir, ravi and amit.
+                        var row = $gridInvoice.get($gridInvoice.getChanges()[i].recid).Date1; //changed schedule date to invoice date suggested by Mukesh sir, ravi and amit.
                         // check org matched or not 
-                        if (isOrgMatched && parseInt($cmbOrg.val()) != parseInt($gridInvoice.records[$gridInvoice.getChanges()[i].recid].AD_Org_ID)) {
+                        if (isOrgMatched && parseInt($cmbOrg.val()) != parseInt($gridInvoice.get($gridInvoice.getChanges()[i].recid).AD_Org_ID)) {
                             isOrgMatched = false;
                         }
                         _allDates.push(new Date(row));
@@ -6535,9 +6535,9 @@
                 }
                 else {
                     if ($gridCashline.getChanges()[i].SelectRow == true) {
-                        var row = $gridCashline.records[$gridCashline.getChanges()[i].recid].DATEACCT;
+                        var row = $gridCashline.get($gridCashline.getChanges()[i].recid).DATEACCT;
                         // check org matched or not 
-                        if (isOrgMatched && parseInt($cmbOrg.val()) != parseInt($gridCashline.records[$gridCashline.getChanges()[i].recid].AD_Org_ID)) {
+                        if (isOrgMatched && parseInt($cmbOrg.val()) != parseInt($gridCashline.get($gridCashline.getChanges()[i].recid).AD_Org_ID)) {
                             isOrgMatched = false;
                         }
                         _allDates.push(new Date(row));
@@ -6550,7 +6550,7 @@
                 }
                 else {
                     if ($glLineGrid.getChanges()[i].SelectRow == true) {
-                        var row = $glLineGrid.records[$glLineGrid.getChanges()[i].recid].DATEACCT;
+                        var row = $glLineGrid.get($glLineGrid.getChanges()[i].recid).DATEACCT;
                         _allDates.push(new Date(row));
                     }
                 }
@@ -6768,7 +6768,7 @@
                         }
                         else {
                             bd = 0;
-                            console.log("GL Row: " + rowsInvoice[i][keys[keys.indexOf("AppliedAmt")]] + ", RowNo:-" + i);
+                            console.log("GL Row: " + rowsGL[i][keys[keys.indexOf("AppliedAmt")]] + ", RowNo:-" + i);
                         }
                         totalGL = totalGL + (isNaN(bd) ? 0 : bd);  //  Applied GL
                         _noGL++;
