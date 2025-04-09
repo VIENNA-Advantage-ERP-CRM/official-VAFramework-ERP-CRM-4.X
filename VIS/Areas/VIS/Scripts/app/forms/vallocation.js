@@ -1313,7 +1313,9 @@
 
                     //$(chk[i]).change(e);
                     $gridInvoice.editChange.call($gridInvoice, chk[i], i, 0, e);
-                    var eData = { "type": "click", "phase": "before", "target": "grid", "recid": i, "index": i, "isStopped": false, "isCan//celled": false, "onComplete": null };
+
+                    var recid = $gridInvoice.records[i].recid;
+                    var eData = { "type": "click", "phase": "before", "target": "grid", "recid": recid, "index": i, "isStopped": false, "isCan//celled": false, "onComplete": null };
                     $gridInvoice.trigger(eData);
                 }
 
@@ -1336,7 +1338,9 @@
 
                     //$(chk[i]).change(e);
                     $gridPayment.editChange.call($gridPayment, chk[i], i, 0, e);
-                    var eData = { "type": "click", "phase": "before", "target": "grid", "recid": i, "index": i, "isStopped": false, "isCan//celled": false, "onComplete": null };
+
+                    var recid = $gridPayment.records[i].recid;
+                    var eData = { "type": "click", "phase": "before", "target": "grid", "recid": recid, "index": i, "isStopped": false, "isCan//celled": false, "onComplete": null };
                     $gridPayment.trigger(eData);
                 }
                 if ($paymentSelctAll.prop("checked") == false)
@@ -1356,7 +1360,9 @@
 
                     //$(chk[i]).change(e);
                     $gridCashline.editChange.call($gridCashline, chk[i], i, 0, e);
-                    var eData = { "type": "click", "phase": "before", "target": "grid", "recid": i, "index": i, "isStopped": false, "isCan//celled": false, "onComplete": null };
+
+                    var recid = $gridCashline.records[i].recid;
+                    var eData = { "type": "click", "phase": "before", "target": "grid", "recid": recid, "index": i, "isStopped": false, "isCan//celled": false, "onComplete": null };
                     $gridCashline.trigger(eData);
                 }
                 if ($cashSelctAll.prop("checked") == false)
@@ -1414,7 +1420,8 @@
 
                     //$(chk[i]).change(e);
                     $glLineGrid.editChange.call($glLineGrid, chk[i], i, 0, e);
-                    var eData = { "type": "click", "phase": "before", "target": "grid", "recid": i, "index": i, "isStopped": false, "isCan//celled": false, "onComplete": null };
+                    var recid = $glLineGrid.records[i].recid;
+                    var eData = { "type": "click", "phase": "before", "target": "grid", "recid": recid, "index": i, "isStopped": false, "isCan//celled": false, "onComplete": null };
                     $glLineGrid.trigger(eData);
                 }
                 if ($glSelectAll.prop("checked") == false)
