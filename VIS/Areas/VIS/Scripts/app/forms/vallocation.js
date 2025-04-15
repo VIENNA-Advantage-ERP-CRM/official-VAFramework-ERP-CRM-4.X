@@ -6340,7 +6340,7 @@
                 }
                 else {
                     if ($gridCashline.getChanges()[i].SelectRow == true) {
-                        var row = $gridCashline.get(gridCashline.getChanges()[i].recid).DATEACCT;
+                        var row = $gridCashline.get($gridCashline.getChanges()[i].recid).DATEACCT;
                         _allDates.push(new Date(row));
                         if ($gridPayment.getChanges().length == 0 && $gridInvoice.getChanges().length == 0 && $glLineGrid.getChanges().length == 0) {
                             var DATEACCT = $gridCashline.get($gridCashline.getChanges()[i].recid).DATEACCT;
