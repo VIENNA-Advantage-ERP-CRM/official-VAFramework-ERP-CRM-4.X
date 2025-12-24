@@ -134,21 +134,34 @@ namespace ModelLibrary.Utility
                                 }
                                 //}
 
-                                // Create Mclient object and send Email 
-                                MClient client = MClient.Get(_ctx, AD_Client_ID);
-                                bool mailsent = client.SendEMail(toEMail, toName, subject, message, attachment, isHtml, AD_Table_ID, Record_ID, array, fileName);
+                                EMail objMail = new EMail(_ctx, "", "", "", "", "", "", true, false);
 
-                                if (mailsent)
+                                if (EMail.SENT_OK.Equals(objMail.IsConfigurationExist(_ctx)))
                                 {
-                                    mailQueue.SetMailStatus("S");
-                                    int act1 = DB.ExecuteQuery("UPDATE AD_WF_Activity SET WFSTATE = 'CC' WHERE AD_WF_Activity_ID = " + AD_WF_Activity_ID);
-                                    int aud1 = DB.ExecuteQuery("UPDATE AD_WF_EventAudit SET WFSTATE = 'CC' WHERE AD_WF_EventAudit_ID = " + AD_WF_EventAudit_ID);
-                                    int wpro = DB.ExecuteQuery("UPDATE AD_WF_Process SET WFSTATE = 'CC' WHERE AD_WF_Process_ID = " + AD_WF_Process_ID + " AND WFState = 'BK' ");
+                                    // Create Mclient object and send Email 
+                                    MClient client = MClient.Get(_ctx, AD_Client_ID);
+                                    bool mailsent = client.SendEMail(toEMail, toName, subject, message, attachment, isHtml, AD_Table_ID, Record_ID, array, fileName);
+
+                                    if (mailsent)
+                                    {
+                                        mailQueue.SetMailStatus("S");
+                                        mailQueue.Set_ValueNoCheck("AD_MailStatusDesc", "Email sent. ToEmail=" + toEMail);
+                                        int act1 = DB.ExecuteQuery("UPDATE AD_WF_Activity SET WFSTATE = 'CC' WHERE AD_WF_Activity_ID = " + AD_WF_Activity_ID);
+                                        int aud1 = DB.ExecuteQuery("UPDATE AD_WF_EventAudit SET WFSTATE = 'CC' WHERE AD_WF_EventAudit_ID = " + AD_WF_EventAudit_ID);
+                                        int wpro = DB.ExecuteQuery("UPDATE AD_WF_Process SET WFSTATE = 'CC' WHERE AD_WF_Process_ID = " + AD_WF_Process_ID + " AND WFState = 'BK' ");
+                                    }
+                                    else
+                                    {
+                                        mailQueue.SetMailStatus("F");
+                                        mailQueue.Set_ValueNoCheck("AD_MailStatusDesc", "Email pushed to mail server email but not delivered to recipient by mail server, please check your email configuration or log of mail server. ToEmail=" + toEMail + ", AD_MailQueue_ID=" + AD_MailQueue_ID + ", AD_WF_Activity_ID=" + AD_WF_Activity_ID);
+                                        VLogger.Get().Warning("Email pushed to mail server email but not delivered to recipient by mail server, please check your email configuration or log of mail server.");
+                                    }
                                 }
                                 else
                                 {
                                     mailQueue.SetMailStatus("F");
-                                    VLogger.Get().Warning("Email not sent by singleton class, marking as failed");
+                                    mailQueue.Set_ValueNoCheck("AD_MailStatusDesc", "Email configuration not found. ToEmail=" + toEMail + ", AD_MailQueue_ID=" + AD_MailQueue_ID + ", AD_WF_Activity_ID=" + AD_WF_Activity_ID);
+                                    VLogger.Get().Warning("Email configuration not found.");
                                 }
 
                                 bool mq = mailQueue.Save();
@@ -157,6 +170,7 @@ namespace ModelLibrary.Utility
                             {
                                 // Mark mail record as failed if node/activity not found 
                                 mailQueue.SetMailStatus("F");
+                                mailQueue.Set_ValueNoCheck("AD_MailStatusDesc", "Activity node not found for email, marking as failed. ToEmail=" + toEMail +", AD_MailQueue_ID=" + AD_MailQueue_ID + ", AD_WF_Activity_ID=" + AD_WF_Activity_ID);
                                 mailQueue.Save();
                                 VLogger.Get().Warning("Activity node not found for email, marking as failed");
                             }
@@ -179,7 +193,8 @@ namespace ModelLibrary.Utility
             }
             catch (Exception e)
             {
-                VLogger.Get().Severe("Error in Email singleton class " + e.Message);
+                VLogger.Get().Severe("Error in Email singleton class " + e.Message);                
+                //mailQueue.Set_ValueNoCheck("AD_MailStatusDesc", "Error in Email singleton class " + e.Message);
                 try
                 {
                     // Check if state is not running 
