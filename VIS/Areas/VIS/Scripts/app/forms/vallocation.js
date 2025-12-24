@@ -1313,7 +1313,9 @@
 
                     //$(chk[i]).change(e);
                     $gridInvoice.editChange.call($gridInvoice, chk[i], i, 0, e);
-                    var eData = { "type": "click", "phase": "before", "target": "grid", "recid": i, "index": i, "isStopped": false, "isCan//celled": false, "onComplete": null };
+
+                    var recid = $gridInvoice.records[i].recid;
+                    var eData = { "type": "click", "phase": "before", "target": "grid", "recid": recid, "index": i, "isStopped": false, "isCan//celled": false, "onComplete": null };
                     $gridInvoice.trigger(eData);
                 }
 
@@ -1336,7 +1338,9 @@
 
                     //$(chk[i]).change(e);
                     $gridPayment.editChange.call($gridPayment, chk[i], i, 0, e);
-                    var eData = { "type": "click", "phase": "before", "target": "grid", "recid": i, "index": i, "isStopped": false, "isCan//celled": false, "onComplete": null };
+
+                    var recid = $gridPayment.records[i].recid;
+                    var eData = { "type": "click", "phase": "before", "target": "grid", "recid": recid, "index": i, "isStopped": false, "isCan//celled": false, "onComplete": null };
                     $gridPayment.trigger(eData);
                 }
                 if ($paymentSelctAll.prop("checked") == false)
@@ -1356,7 +1360,9 @@
 
                     //$(chk[i]).change(e);
                     $gridCashline.editChange.call($gridCashline, chk[i], i, 0, e);
-                    var eData = { "type": "click", "phase": "before", "target": "grid", "recid": i, "index": i, "isStopped": false, "isCan//celled": false, "onComplete": null };
+
+                    var recid = $gridCashline.records[i].recid;
+                    var eData = { "type": "click", "phase": "before", "target": "grid", "recid": recid, "index": i, "isStopped": false, "isCan//celled": false, "onComplete": null };
                     $gridCashline.trigger(eData);
                 }
                 if ($cashSelctAll.prop("checked") == false)
@@ -1414,7 +1420,8 @@
 
                     //$(chk[i]).change(e);
                     $glLineGrid.editChange.call($glLineGrid, chk[i], i, 0, e);
-                    var eData = { "type": "click", "phase": "before", "target": "grid", "recid": i, "index": i, "isStopped": false, "isCan//celled": false, "onComplete": null };
+                    var recid = $glLineGrid.records[i].recid;
+                    var eData = { "type": "click", "phase": "before", "target": "grid", "recid": recid, "index": i, "isStopped": false, "isCan//celled": false, "onComplete": null };
                     $glLineGrid.trigger(eData);
                 }
                 if ($glSelectAll.prop("checked") == false)
@@ -3383,47 +3390,47 @@
         //binding GL Grid 
         function bindGLGrid(data, chk) {
             var columns = [];
-            columns.push({ field: "SelectRow", caption: VIS.translatedTexts.VIS_Check, size: '50px', editable: { type: 'checkbox' } });
-            columns.push({ field: "AD_Org_ID", caption: VIS.translatedTexts.AD_Org_ID, size: '85px', hidden: true });
-            columns.push({ field: "OrgName", caption: VIS.translatedTexts.AD_Org_ID, size: '105px', hidden: false, sortable: false });
+            columns.push({ field: "SelectRow", columnName: "SelectRow", caption: VIS.translatedTexts.VIS_Check, size: '50px', editable: { type: 'checkbox' }, sortable: false });
+            columns.push({ field: "AD_Org_ID", columnName: "AD_Org_ID", caption: VIS.translatedTexts.AD_Org_ID, size: '85px', hidden: true });
+            columns.push({ field: "OrgName", columnName: "OrgName", caption: VIS.translatedTexts.AD_Org_ID, size: '105px', hidden: false, sortable: true });
             columns.push({
-                field: "DATEACCT", caption: VIS.translatedTexts.DateAcct, render: function (record, index, col_index) {
+                field: "DATEACCT", columnName: "DATEACCT", caption: VIS.translatedTexts.DateAcct, render: function (record, index, col_index) {
                     var val = record["DATEACCT"];
                     return new Date(val).toLocaleDateString();
-                }, size: '105px', hidden: false, sortable: false
+                }, size: '105px', hidden: false, sortable: true
             });
-            columns.push({ field: "DOCUMENTNO", caption: VIS.translatedTexts.DocumentNo, size: '120px', hidden: false, sortable: false });
+            columns.push({ field: "DOCUMENTNO", columnName: "DOCUMENTNO", caption: VIS.translatedTexts.DocumentNo, size: '120px', hidden: false, sortable: true });
             //added new Column Account - on 24/09/2020
-            columns.push({ field: "Account", caption: VIS.translatedTexts.Account, size: '150px', hidden: false, sortable: false });
-            columns.push({ field: "Isocode", caption: VIS.translatedTexts.TrxCurrency, size: '105px', hidden: false });
-            columns.push({ field: "ConversionName", caption: VIS.translatedTexts.C_ConversionType_ID, size: '105px', hidden: false, sortable: false });
+            columns.push({ field: "Account", columnName: "Account", caption: VIS.translatedTexts.Account, size: '150px', hidden: false, sortable: true });
+            columns.push({ field: "Isocode", columnName: "Isocode", caption: VIS.translatedTexts.TrxCurrency, size: '105px', hidden: false, sortable: true });
+            columns.push({ field: "ConversionName", columnName: "ConversionName", caption: VIS.translatedTexts.C_ConversionType_ID, size: '105px', hidden: false, sortable: true });
             columns.push({
-                field: "ConvertedAmount", caption: VIS.Msg.getMsg("Amount"), attr: 'align=right', size: '150px', hidden: false, sortable: false, render: function (record, index, col_index) {
+                field: "ConvertedAmount", columnName: "ConvertedAmount", caption: VIS.Msg.getMsg("Amount"), attr: 'align=right', size: '150px', hidden: false, sortable: true, render: function (record, index, col_index) {
                     var val = record["ConvertedAmount"];
                     return parseFloat(val).toLocaleString(navigator.language, { maximumFractionDigits: stdPrecision, minimumFractionDigits: stdPrecision });
                 }
             });
             columns.push({
-                field: "OpenAmount", caption: VIS.translatedTexts.OpenAmount, attr: 'align=right', size: '150px', hidden: false, sortable: false, render: function (record, index, col_index) {
+                field: "OpenAmount", columnName: "OpenAmount", caption: VIS.translatedTexts.OpenAmount, attr: 'align=right', size: '150px', hidden: false, sortable: true, render: function (record, index, col_index) {
                     var val = record["OpenAmount"];
                     return parseFloat(val).toLocaleString(navigator.language, { maximumFractionDigits: stdPrecision, minimumFractionDigits: stdPrecision });
                 }
             });
             columns.push({
-                field: "AppliedAmt", caption: VIS.translatedTexts.AppliedAmount, size: '150px', attr: 'align=right', hidden: false, sortable: false, render: function (record, index, col_index) {
+                field: "AppliedAmt", columnName: "AppliedAmt", caption: VIS.translatedTexts.AppliedAmount, size: '150px', attr: 'align=right', hidden: false, sortable: true, render: function (record, index, col_index) {
                     var val = record["AppliedAmt"];
                     return parseFloat(val).toLocaleString(navigator.language, { maximumFractionDigits: stdPrecision, minimumFractionDigits: stdPrecision });
                 }
             });
             columns.push({
-                field: "DATEDOC", caption: VIS.translatedTexts.Date, render: function (record, index, col_index) {
+                field: "DATEDOC", columnName: "DATEDOC", caption: VIS.translatedTexts.Date, render: function (record, index, col_index) {
                     var val = record["DATEDOC"];
                     return new Date(val).toLocaleDateString();
                 }, size: '80px', hidden: true
             });
-            columns.push({ field: "GL_JOURNALLINE_ID", caption: VIS.translatedTexts.GL_JOURNALLINE_ID, size: '150px', hidden: true });
-            columns.push({ field: "C_ConversionType_ID", caption: VIS.translatedTexts.C_ConversionType_ID, size: '85px', hidden: true });
-            columns.push({ field: "GL_Journal_ID", caption: VIS.translatedTexts.C_ConversionType_ID, size: '85px', hidden: true });
+            columns.push({ field: "GL_JOURNALLINE_ID", columnName: "GL_JOURNALLINE_ID", caption: VIS.translatedTexts.GL_JOURNALLINE_ID, size: '150px', hidden: true });
+            columns.push({ field: "C_ConversionType_ID", columnName: "C_ConversionType_ID", caption: VIS.translatedTexts.C_ConversionType_ID, size: '85px', hidden: true });
+            columns.push({ field: "GL_Journal_ID", columnName: "GL_Journal_ID", caption: VIS.translatedTexts.C_ConversionType_ID, size: '85px', hidden: true });
 
             var rows = [];
 
@@ -3538,56 +3545,56 @@
         //render to culture format
         function bindPaymentGrid(data, chk) {
             var columns = [];
-            columns.push({ field: 'SelectRow', caption: VIS.translatedTexts.VIS_Check, size: '50px', editable: { type: 'checkbox' } });
-            columns.push({ field: "AD_Org_ID", caption: VIS.translatedTexts.AD_Org_ID, size: '85px', hidden: true });
-            columns.push({ field: "OrgName", caption: VIS.translatedTexts.AD_Org_ID, size: '85px', hidden: false });
+            columns.push({ field: 'SelectRow', columnName: "SelectRow", caption: VIS.translatedTexts.VIS_Check, size: '50px', editable: { type: 'checkbox' }, sortable: false });
+            columns.push({ field: "AD_Org_ID", columnName: "AD_Org_ID", caption: VIS.translatedTexts.AD_Org_ID, size: '85px', hidden: true });
+            columns.push({ field: "OrgName", columnName: "OrgName", caption: VIS.translatedTexts.AD_Org_ID, size: '85px', hidden: false, sortable: true });
             columns.push({
-                field: "DATEACCT", caption: VIS.translatedTexts.DateAcct, size: '85px', hidden: false, render: function (record, index, col_index) {
+                field: "DATEACCT", columnName: "DATEACCT", caption: VIS.translatedTexts.DateAcct, size: '85px', hidden: false, sortable: true, render: function (record, index, col_index) {
                     var val = record["DATEACCT"];
                     return new Date(val).toLocaleDateString();
                 }
             });
-            columns.push({ field: "Documentno", caption: VIS.translatedTexts.DocumentNo, size: '120px', hidden: false });
-            columns.push({ field: "DocBaseType", caption: VIS.translatedTexts.DocBaseType, size: '120px', hidden: false });
+            columns.push({ field: "Documentno", columnName: "Documentno", caption: VIS.translatedTexts.DocumentNo, size: '120px', hidden: false, sortable: true });
+            columns.push({ field: "DocBaseType", columnName: "DocBaseType", caption: VIS.translatedTexts.DocBaseType, size: '120px', hidden: false, sortable: true });
             //new column payment menthod name added into grid
-            columns.push({ field: "PayName", caption: VIS.translatedTexts.PaymentMethod, size: '120px', hidden: false });
+            columns.push({ field: "PayName", columnName: "PayName", caption: VIS.translatedTexts.PaymentMethod, size: '120px', hidden: false, sortable: true });
             //if (chk) {
             //    columns.push({ field: "Isocode", caption: VIS.translatedTexts.TrxCurrency, size: '85px', hidden: false });
             //}
             //else {
-            columns.push({ field: "Isocode", caption: VIS.translatedTexts.TrxCurrency, size: '85px', hidden: false });
+            columns.push({ field: "Isocode", columnName: "Isocode", caption: VIS.translatedTexts.TrxCurrency, size: '85px', hidden: false, sortable: true });
             //}
-            columns.push({ field: "ConversionName", caption: VIS.translatedTexts.C_ConversionType_ID, size: '85px', hidden: false });
+            columns.push({ field: "ConversionName", columnName: "ConversionName", caption: VIS.translatedTexts.C_ConversionType_ID, size: '85px', hidden: false, sortable: true });
             if (chk) {
                 //render column into float with culture format
                 columns.push({
-                    field: "Payment", caption: VIS.translatedTexts.Amount, size: '150px', attr: 'align=right', hidden: false, render: function (record, index, col_index) {
+                    field: "Payment", columnName: "Payment", caption: VIS.translatedTexts.Amount, size: '150px', attr: 'align=right', hidden: false, sortable: true, render: function (record, index, col_index) {
                         var val = record["Payment"];
                         return parseFloat(val).toLocaleString(navigator.language, { minimumFractionDigits: stdPrecision, maximumFractionDigits: stdPrecision });
                     }
                 });
             }
             else {
-                columns.push({ field: "Payment", caption: VIS.translatedTexts.Amount, size: '150px', hidden: true });
+                columns.push({ field: "Payment", columnName: "Payment", caption: VIS.translatedTexts.Amount, size: '150px', hidden: true });
             }
             //render column into float with culture format
             columns.push({
-                field: "ConvertedAmount", caption: VIS.translatedTexts.ConvertedAmount, size: '150px', attr: 'align=right', hidden: false, render: function (record, index, col_index) {
+                field: "ConvertedAmount", columnName: "ConvertedAmount", caption: VIS.translatedTexts.ConvertedAmount, size: '150px', attr: 'align=right', hidden: false, sortable: true, render: function (record, index, col_index) {
                     var val = record["ConvertedAmount"];
                     return parseFloat(val).toLocaleString(navigator.language, { minimumFractionDigits: stdPrecision, maximumFractionDigits: stdPrecision });
                 }
             });
             //render column into float with culture format
             columns.push({
-                field: "OpenAmt", caption: VIS.translatedTexts.OpenAmount, size: '150px', attr: 'align=right', hidden: false, render: function (record, index, col_index) {
+                field: "OpenAmt", columnName: "OpenAmt", caption: VIS.translatedTexts.OpenAmount, size: '150px', attr: 'align=right', hidden: false, sortable: true, render: function (record, index, col_index) {
                     var val = record["OpenAmt"];
                     return parseFloat(val).toLocaleString(navigator.language, { minimumFractionDigits: stdPrecision, maximumFractionDigits: stdPrecision });
                 }
             });
-            columns.push({ field: "Multiplierap", caption: VIS.translatedTexts.multiplierap, size: '150px', hidden: true });
+            columns.push({ field: "Multiplierap", columnName: "Multiplierap", caption: VIS.translatedTexts.multiplierap, size: '150px', hidden: true });
             //render column into float with culture format
             columns.push({
-                field: "AppliedAmt", caption: VIS.translatedTexts.AppliedAmount, size: '150px', attr: 'align=right', hidden: false, render: function (record, index, col_index) {
+                field: "AppliedAmt", columnName: "AppliedAmt", caption: VIS.translatedTexts.AppliedAmount, size: '150px', attr: 'align=right', hidden: false, sortable: true, render: function (record, index, col_index) {
 
                     var val = record["AppliedAmt"];
                     val = checkcommaordot(event, val, val);
@@ -3595,13 +3602,13 @@
                 }, editable: { type: 'number' }
             });
             columns.push({
-                field: "Date1", caption: VIS.translatedTexts.Date, size: '80px', hidden: true, render: function (record, index, col_index) {
+                field: "Date1", columnName: "Date1", caption: VIS.translatedTexts.Date, size: '80px', hidden: true, render: function (record, index, col_index) {
                     var val = record["Date1"];
                     return new Date(val).toLocaleDateString();
                 }
             });
-            columns.push({ field: "CpaymentID", caption: VIS.translatedTexts.c_payment_id, size: '150px', hidden: true });
-            columns.push({ field: "C_ConversionType_ID", caption: VIS.translatedTexts.C_ConversionType_ID, size: '85px', hidden: true });
+            columns.push({ field: "CpaymentID", columnName: "CpaymentID", caption: VIS.translatedTexts.c_payment_id, size: '150px', hidden: true });
+            columns.push({ field: "C_ConversionType_ID", columnName: "C_ConversionType_ID", caption: VIS.translatedTexts.C_ConversionType_ID, size: '85px', hidden: true });
 
             var rows = [];
 
@@ -3759,56 +3766,56 @@
         //culture work
         function bindCashline(data, chk) {
             var columns = [];
-            columns.push({ field: 'SelectRow', caption: VIS.translatedTexts.VIS_Check, size: '50px', editable: { type: 'checkbox' } });
-            columns.push({ field: "AD_Org_ID", caption: VIS.translatedTexts.AD_Org_ID, size: '85px', hidden: true });
-            columns.push({ field: "OrgName", caption: VIS.translatedTexts.AD_Org_ID, size: '105px', hidden: false });
+            columns.push({ field: 'SelectRow', columnName: "SelectRow", caption: VIS.translatedTexts.VIS_Check, size: '50px', editable: { type: 'checkbox' }, sortable: false });
+            columns.push({ field: "AD_Org_ID", columnName: "AD_Org_ID", caption: VIS.translatedTexts.AD_Org_ID, size: '85px', hidden: true, sortable: true });
+            columns.push({ field: "OrgName", columnName: "OrgName", caption: VIS.translatedTexts.AD_Org_ID, size: '105px', hidden: false, sortable: true });
             columns.push({
-                field: "DATEACCT", caption: VIS.translatedTexts.DateAcct, size: '105px', hidden: false, render: function (record, index, col_index) {
+                field: "DATEACCT", columnName: "DATEACCT", caption: VIS.translatedTexts.DateAcct, size: '105px', hidden: false, sortable: true, render: function (record, index, col_index) {
                     var val = record["DATEACCT"];
                     return new Date(val).toLocaleDateString();
                 }
             });
-            columns.push({ field: "ReceiptNo", caption: VIS.translatedTexts.RECEIPTNO, size: '120px', hidden: false });
-            columns.push({ field: "VSS_paymenttype", caption: "Payment ID", size: '120px', hidden: true });
-            columns.push({ field: "Payment", caption: "Payment Type", size: '120px', hidden: false });
-            columns.push({ field: "Isocode", caption: VIS.Msg.getMsg("TrxCurrency"), size: '105px', hidden: false });
-            columns.push({ field: "ConversionName", caption: VIS.translatedTexts.C_ConversionType_ID, size: '105px', hidden: false });
+            columns.push({ field: "ReceiptNo", columnName: "ReceiptNo", caption: VIS.translatedTexts.RECEIPTNO, size: '120px', hidden: false, sortable: true });
+            columns.push({ field: "VSS_paymenttype", columnName: "VSS_paymenttype", caption: "Payment ID", size: '120px', hidden: true });
+            columns.push({ field: "Payment", columnName: "Payment", caption: "Payment Type", size: '120px', hidden: false, sortable: true });
+            columns.push({ field: "Isocode", columnName: "Isocode", caption: VIS.Msg.getMsg("TrxCurrency"), size: '105px', hidden: false, sortable: true });
+            columns.push({ field: "ConversionName", columnName: "ConversionName", caption: VIS.translatedTexts.C_ConversionType_ID, size: '105px', hidden: false, sortable: true });
             if (chk) {
                 //render column into float with culture format
                 columns.push({
-                    field: "Amount", caption: VIS.translatedTexts.Amount, size: '150px', attr: 'align=right', hidden: false, render: function (record, index, col_index) {
+                    field: "Amount", columnName: "Amount", caption: VIS.translatedTexts.Amount, size: '150px', attr: 'align=right', hidden: false, sortable: true, render: function (record, index, col_index) {
                         var val = record["Amount"];
                         return parseFloat(val).toLocaleString(navigator.language, { minimumFractionDigits: stdPrecision, maximumFractionDigits: stdPrecision });
                     }
                 });
             }
             else {
-                columns.push({ field: "Amount", caption: VIS.translatedTexts.Amount, size: '150px', hidden: true });
+                columns.push({ field: "Amount", columnName: "Amount", caption: VIS.translatedTexts.Amount, size: '150px', hidden: true });
             }
             //render column into float with culture format
             columns.push({
-                field: "ConvertedAmount", caption: VIS.Msg.getMsg("ConvertedAmount"), size: '150px', attr: 'align=right', hidden: false, render: function (record, index, col_index) {
+                field: "ConvertedAmount", columnName: "ConvertedAmount", caption: VIS.Msg.getMsg("ConvertedAmount"), size: '150px', attr: 'align=right', hidden: false, sortable: true, render: function (record, index, col_index) {
                     var val = record["ConvertedAmount"];
                     return parseFloat(val).toLocaleString(navigator.language, { minimumFractionDigits: stdPrecision, maximumFractionDigits: stdPrecision });
                 }
             });
             //render column into float with culture format
             columns.push({
-                field: "OpenAmt", caption: VIS.translatedTexts.OpenAmount, size: '150px', hidden: false, attr: 'align=right', render: function (record, index, col_index) {
+                field: "OpenAmt", columnName: "OpenAmt", caption: VIS.translatedTexts.OpenAmount, size: '150px', hidden: false, attr: 'align=right', sortable: true, render: function (record, index, col_index) {
                     var val = record["OpenAmt"];
                     return parseFloat(val).toLocaleString(navigator.language, { minimumFractionDigits: stdPrecision, maximumFractionDigits: stdPrecision });
                 }
             });
             //render column into float with culture format
             columns.push({
-                field: "AppliedAmt", caption: VIS.translatedTexts.AppliedAmount, size: '150px', attr: 'align=right', hidden: false, render: function (record, index, col_index) {
+                field: "AppliedAmt", columnName: "AppliedAmt", caption: VIS.translatedTexts.AppliedAmount, size: '150px', attr: 'align=right', hidden: false, sortable: true, render: function (record, index, col_index) {
                     var val = record["AppliedAmt"];
                     val = checkcommaordot(event, val, val);
                     return parseFloat(val).toLocaleString(navigator.language, { maximumFractionDigits: stdPrecision, minimumFractionDigits: stdPrecision });
                 }, editable: { type: 'number' }
             });
             columns.push({
-                field: "Created", caption: VIS.translatedTexts.Date, size: '80px', hidden: true, render: function (record, index, col_index) {
+                field: "Created", columnName: "Created", caption: VIS.translatedTexts.Date, size: '80px', hidden: true, sortable: true, render: function (record, index, col_index) {
                     var val = record["Created"];
                     return new Date(val).toLocaleDateString();
                 }
@@ -3831,9 +3838,9 @@
             //else {
             //    columns.push({ field: "Amount", caption: VIS.translatedTexts.Amount, size: '150px', hidden: true });
             //}
-            columns.push({ field: "CcashlineiID", caption: VIS.translatedTexts.ccashlineid, size: '150px', hidden: true });
-            columns.push({ field: "Multiplierap", caption: VIS.translatedTexts.multiplierap, hidden: true });
-            columns.push({ field: "C_ConversionType_ID", caption: VIS.translatedTexts.C_ConversionType_ID, size: '85px', hidden: true });
+            columns.push({ field: "CcashlineiID", columnName: "CcashlineiID", caption: VIS.translatedTexts.ccashlineid, size: '150px', hidden: true });
+            columns.push({ field: "Multiplierap", columnName: "Multiplierap", caption: VIS.translatedTexts.multiplierap, hidden: true });
+            columns.push({ field: "C_ConversionType_ID", columnName: "C_ConversionType_ID", caption: VIS.translatedTexts.C_ConversionType_ID, size: '85px', hidden: true });
             var rows = [];
 
             var colkeys = [];
@@ -4038,78 +4045,79 @@
         //Invoice grid bind
         function bindInvoiceGrid(data, chk) {
             var columns = [];
-            columns.push({ field: 'SelectRow', caption: VIS.translatedTexts.VIS_Check, size: '50px', editable: { type: 'checkbox' } });
-            columns.push({ field: "AD_Org_ID", caption: VIS.translatedTexts.AD_Org_ID, size: '85px', hidden: true });
-            columns.push({ field: "OrgName", caption: VIS.translatedTexts.AD_Org_ID, size: '105px', hidden: false });
+            columns.push({ field: 'SelectRow', columnName: "SelectRow", caption: VIS.translatedTexts.VIS_Check, size: '50px', editable: { type: 'checkbox' }, sortable: false });
+            columns.push({ field: "AD_Org_ID", columnName: "AD_Org_ID", caption: VIS.translatedTexts.AD_Org_ID, size: '85px', hidden: true });
+            columns.push({ field: "OrgName", columnName: "OrgName", caption: VIS.translatedTexts.AD_Org_ID, size: '105px', hidden: false, sortable: true });
             columns.push({
-                field: "DATEACCT", caption: VIS.translatedTexts.DateAcct, size: '105px', hidden: false, render: function (record, index, col_index) {
+                field: "DATEACCT", columnName: "DATEACCT", caption: VIS.translatedTexts.DateAcct, size: '105px', hidden: false, sortable: true, render: function (record, index, col_index) {
                     var val = record["DATEACCT"];
                     return new Date(val).toLocaleDateString();
                 }
             });
-            columns.push({ field: "Documentno", caption: VIS.translatedTexts.DocumentNo, size: '120px', hidden: false });
+            columns.push({ field: "Documentno", columnName: "Documentno", caption: VIS.translatedTexts.DocumentNo, size: '120px', hidden: false, sortable: true });
             columns.push({
-                field: "InvoiceScheduleDate", caption: VIS.translatedTexts.ScheduleDate, size: '100px', hidden: false, render: function (record, index, col_index) {
+                field: "InvoiceScheduleDate", columnName: "InvoiceScheduleDate", caption: VIS.translatedTexts.ScheduleDate, size: '100px', hidden: false, sortable: true, render: function (record, index, col_index) {
                     var val = record["InvoiceScheduleDate"];
                     return new Date(val).toLocaleDateString();
                 }
             });
-            columns.push({ field: "DocBaseType", caption: VIS.translatedTexts.DocBaseType, size: '120px', hidden: false });
+            columns.push({ field: "DocBaseType", columnName: "DocBaseType", caption: VIS.translatedTexts.DocBaseType, size: '120px', hidden: false, sortable: true });
             //new column payment method name added into grid
-            columns.push({ field: "PayName", caption: VIS.translatedTexts.PaymentMethod, size: '120px', hidden: false });
-            columns.push({ field: "Isocode", caption: VIS.Msg.getMsg("TrxCurrency"), size: '85px', hidden: false });
-            columns.push({ field: "ConversionName", caption: VIS.translatedTexts.C_ConversionType_ID, size: '85px', hidden: false });
+            columns.push({ field: "PayName", columnName: "PayName", caption: VIS.translatedTexts.PaymentMethod, size: '120px', hidden: false, sortable: true });
+            columns.push({ field: "Isocode", columnName: "Isocode", caption: VIS.Msg.getMsg("TrxCurrency"), size: '85px', hidden: false, sortable: true });
+            columns.push({ field: "ConversionName", columnName: "ConversionName", caption: VIS.translatedTexts.C_ConversionType_ID, size: '85px', hidden: false, sortable: true });
             if (chk) {
                 //render column into float with culture format
                 columns.push({
-                    field: "Currency", caption: VIS.translatedTexts.Amount, size: '100px', attr: 'align=right', hidden: false, render: function (record, index, col_index) {
+                    field: "Currency", columnName: "Currency", caption: VIS.translatedTexts.Amount, size: '100px', attr: 'align=right', hidden: false, sortable: true, render: function (record, index, col_index) {
                         var val = record["Currency"];
                         return parseFloat(val).toLocaleString(navigator.language, { minimumFractionDigits: stdPrecision, maximumFractionDigits: stdPrecision });
+
                     }
                 });
             }
             else {
-                columns.push({ field: "Currency", caption: VIS.translatedTexts.Amount, size: '100px', hidden: true });
+                columns.push({ field: "Currency", columnName: "Currency", caption: VIS.translatedTexts.Amount, size: '100px', hidden: true });
             }
             //render column into float with culture format
             columns.push({
-                field: "Converted", caption: VIS.Msg.getMsg("ConvertedAmount"), size: '100px', hidden: false, attr: 'align=right', render: function (record, index, col_index) {
+                field: "Converted", columnName: "Converted", caption: VIS.Msg.getMsg("ConvertedAmount"), size: '100px', hidden: false, sortable: true, attr: 'align=right', render: function (record, index, col_index) {
                     var val = record["Converted"];
                     return parseFloat(val).toLocaleString(navigator.language, { minimumFractionDigits: stdPrecision, maximumFractionDigits: stdPrecision });
                 }
             });
             //render column into float with culture format
             columns.push({
-                field: "Amount", caption: VIS.translatedTexts.OpenAmount, size: '100px', hidden: false, attr: 'align=right', render: function (record, index, col_index) {
+                field: "Amount", columnName: "Amount", caption: VIS.translatedTexts.OpenAmount, size: '100px', hidden: false, sortable: true, attr: 'align=right', render: function (record, index, col_index) {
                     var val = record["Amount"];
                     return parseFloat(val).toLocaleString(navigator.language, { minimumFractionDigits: stdPrecision, maximumFractionDigits: stdPrecision });
                 }
             });
             //render column into float with culture format
             columns.push({
-                field: "Discount", caption: VIS.translatedTexts.DiscountAmt, size: '100px', hidden: false, attr: 'align=right', render: function (record, index, col_index) {
+                field: "Discount", columnName: "Discount", caption: VIS.translatedTexts.DiscountAmt, size: '100px', hidden: false, sortable: true, attr: 'align=right', render: function (record, index, col_index) {
                     var val = record["Discount"];
                     val = checkcommaordot(event, val, val);
                     return parseFloat(val).toLocaleString(navigator.language, { minimumFractionDigits: stdPrecision, maximumFractionDigits: stdPrecision });
                 }, editable: { type: 'number' }
             });
             columns.push({
-                field: "Date1", caption: VIS.translatedTexts.Date, size: '80px', hidden: true, render: function (record, index, col_index) {
+                field: "Date1", columnName: "Date1", caption: VIS.translatedTexts.Date, size: '80px', hidden: true, render: function (record, index, col_index) {
                     var val = record["Date1"];
                     return new Date(val).toLocaleDateString();
                 }
             });
-            columns.push({ field: "CinvoiceID", caption: VIS.translatedTexts.cinvoiceid, size: '150px', hidden: true });
+            columns.push({ field: "CinvoiceID", columnName: "AD_Org_ID", caption: VIS.translatedTexts.cinvoiceid, size: '150px', hidden: true });
             //if (chk) {
             //    columns.push({ field: "Isocode", caption: VIS.Msg.getMsg("TrxCurrency"), size: '85px', hidden: false });
             //}
             //else {
             //    columns.push({ field: "Isocode", caption: VIS.Msg.getMsg("TrxCurrency"), size: '85px', hidden: true });
             //}
-            columns.push({ field: "Multiplierap", caption: VIS.translatedTexts.multiplierap, hidden: true });
+            columns.push({ field: "Multiplierap", columnName: "Multiplierap", caption: VIS.translatedTexts.multiplierap, hidden: true });
             //render column into float with culture format
             columns.push({
-                field: "Writeoff", caption: VIS.translatedTexts.WriteOffAmount, size: '100px', attr: 'align=right', hidden: false, render: function (record, index, col_index) {
+                field: "Writeoff", columnName: "Writeoff", caption: VIS.translatedTexts.WriteOffAmount, size: '100px', attr: 'align=right', hidden: false, sortable: true, render: function (record, index, col_index) {
                     var val = record["Writeoff"];
                     val = checkcommaordot(event, val, val);
                     return parseFloat(val).toLocaleString(navigator.language, { minimumFractionDigits: stdPrecision, maximumFractionDigits: stdPrecision });
@@ -4117,16 +4125,16 @@
             });
             //render column into float with culture format
             columns.push({
-                field: "AppliedAmt", caption: VIS.translatedTexts.AppliedAmount, size: '100px', hidden: false, attr: 'align=right', render: function (record, index, col_index) {
+                field: "AppliedAmt", columnName: "AppliedAmt", caption: VIS.translatedTexts.AppliedAmount, size: '100px', hidden: false, sortable: true, attr: 'align=right', render: function (record, index, col_index) {
                     var val = record["AppliedAmt"];
                     val = checkcommaordot(event, val, val);
                     return parseFloat(val).toLocaleString(navigator.language, { minimumFractionDigits: stdPrecision, maximumFractionDigits: stdPrecision });
                 }, editable: { type: 'number' }
             });
             if (countVA009 > 0) {
-                columns.push({ field: "C_InvoicePaySchedule_ID", caption: VIS.translatedTexts.C_InvoicePaySchedule_ID, size: '100px', hidden: true });
+                columns.push({ field: "C_InvoicePaySchedule_ID", columnName: "C_InvoicePaySchedule_ID", caption: VIS.translatedTexts.C_InvoicePaySchedule_ID, size: '100px', hidden: true });
             }
-            columns.push({ field: "C_ConversionType_ID", caption: VIS.translatedTexts.C_ConversionType_ID, size: '85px', hidden: true });
+            columns.push({ field: "C_ConversionType_ID", columnName: "C_ConversionType_ID", caption: VIS.translatedTexts.C_ConversionType_ID, size: '85px', hidden: true });
 
             var rows = [];
 
@@ -4833,9 +4841,9 @@
                 });
                 if (element == null || element[0] == undefined || element.length == 0 || element[0].SelectRow == undefined) {
                     //Set value to 0 when element is null
-                    $gridInvoice.records[event.recid]["AppliedAmt"] = 0;
-                    $gridInvoice.records[event.recid]["Writeoff"] = 0;
-                    $gridInvoice.records[event.recid]["Discount"] = 0;
+                    $gridInvoice.get(event.recid)["AppliedAmt"] = 0;
+                    $gridInvoice.get(event.recid)["Writeoff"] = 0;
+                    $gridInvoice.get(event.recid)["Discount"] = 0;
                     $gridInvoice.refreshCell(event.recid, "AppliedAmt");
                     $gridInvoice.refreshCell(event.recid, "Writeoff");
                     $gridInvoice.refreshCell(event.recid, "Discount");
@@ -4845,7 +4853,7 @@
                     if (element[0].SelectRow == true) {
                         // when we select a record, check conversion type is same or not.
                         // if not then not to select this record
-                        if (C_ConversionType_ID == 0) {
+                        if (VIS.Utility.Util.getValueOfInt(C_ConversionType_ID) == 0) {
                             C_ConversionType_ID = $gridInvoice.get(event.recid).C_ConversionType_ID;
                         }
                         /*VIS_0045: conversion type matched when allocate with GL and Cash*/
@@ -4883,9 +4891,9 @@
                                 $gridInvoice.get(event.recid).changes.AppliedAmt = "0";
                                 $gridInvoice.refreshCell(event.recid, "AppliedAmt");
                                 var chk = $('#grid_' + $gridInvoice.name + '_records td[col="0"]').find('input[type="checkbox"]');
-                                $(chk[event.recid]).prop('checked', false);
-                                $gridInvoice.editChange.call($gridInvoice, chk[event.recid], event.recid, 0, event);
-                                var eData = { "type": "click", "phase": "before", "target": "grid", "recid": event.recid, "index": event.recid, "isStopped": false, "isCan//celled": false, "onComplete": null };
+                                $(chk[event.index]).prop('checked', false);
+                                $gridInvoice.editChange.call($gridInvoice, chk[event.index], event.index, 0, event);
+                                var eData = { "type": "click", "phase": "before", "target": "grid", "recid": event.recid, "index": event.index, "isStopped": false, "isCan//celled": false, "onComplete": null };
                                 $gridInvoice.trigger(eData);
                                 return false;
                             }
@@ -4911,7 +4919,7 @@
                 }
                 //check weather someone clicked on select column checkbox in grid
                 if ((selectColIndex == event.column || event.column == null) && ((element[0] != undefined) && !(element[0].SelectRow == undefined))) {
-                    $gridInvoice.records[event.recid]["AppliedAmt"] = VIS.Utility.Util.getValueOfDecimal($gridInvoice.get(event.recid).Amount);
+                    $gridInvoice.get(event.recid)["AppliedAmt"] = VIS.Utility.Util.getValueOfDecimal($gridInvoice.get(event.recid).Amount);
                 }
                 tableChanged(event.recid, event.column, true, false);
             }
@@ -4932,9 +4940,9 @@
                 });
                 if (element == null || element[0] == undefined || element.length == 0 || element[0].SelectRow == undefined) {
                     //Set value to 0 when element is null
-                    $gridPayment.records[event.recid]["AppliedAmt"] = 0;
-                    //$gridPayment.records[event.recid]["Writeoff"] = 0;
-                    //$gridPayment.records[event.recid]["Discount"] = 0;
+                    $gridPayment.get(event.recid)["AppliedAmt"] = 0;
+                    //$gridPayment.get(event.recid)["Writeoff"] = 0;
+                    //$gridPayment.get(event.recid)["Discount"] = 0;
                     $gridPayment.refreshCell(event.recid, "AppliedAmt");
                     getMaxDate();
                 }
@@ -4955,7 +4963,7 @@
                         }
                         // when we select a record, check conversion type is same or not.
                         // if not then not to select this record
-                        if (C_ConversionType_ID == 0) {
+                        if (VIS.Utility.Util.getValueOfInt(C_ConversionType_ID) == 0) {
                             C_ConversionType_ID = $gridPayment.get(event.recid).C_ConversionType_ID;
                         }
                         else if (C_ConversionType_ID != $gridPayment.get(event.recid).C_ConversionType_ID) {
@@ -4988,13 +4996,13 @@
                                 $gridPayment.get(event.recid).changes.AppliedAmt = "0";
                                 $gridPayment.refreshCell(event.recid, "AppliedAmt");
                                 var chk = $('#grid_' + $gridPayment.name + '_records td[col="0"]').find('input[type="checkbox"]');
-                                $(chk[event.recid]).prop('checked', false);
-                                $gridPayment.editChange.call($gridPayment, chk[event.recid], event.recid, 0, event);
-                                var eData = { "type": "click", "phase": "before", "target": "grid", "recid": event.recid, "index": event.recid, "isStopped": false, "isCan//celled": false, "onComplete": null };
+                                $(chk[event.index]).prop('checked', false);
+                                $gridPayment.editChange.call($gridPayment, chk[event.index], event.index, 0, event);
+                                var eData = { "type": "click", "phase": "before", "target": "grid", "recid": event.recid, "index": event.index, "isStopped": false, "isCan//celled": false, "onComplete": null };
                                 $gridPayment.trigger(eData);
                                 return false;
                             }
-                            var DATEACCT = $gridPayment.records[event.recid].DATEACCT;
+                            var DATEACCT = $gridPayment.get(event.recid).DATEACCT;
                             var ConversnDate = Globalize.format(new Date($conversionDate.val()), "yyyy-MM-dd");
                             DATEACCT = Globalize.format(new Date(DATEACCT), "yyyy-MM-dd");
                             if (ConversnDate != DATEACCT) {
@@ -5006,9 +5014,9 @@
                                 $gridPayment.get(event.recid).changes.AppliedAmt = "0";
                                 $gridPayment.refreshCell(event.recid, "AppliedAmt");
                                 var chk = $('#grid_' + $gridPayment.name + '_records td[col="0"]').find('input[type="checkbox"]');
-                                $(chk[event.recid]).prop('checked', false);
-                                $gridPayment.editChange.call($gridPayment, chk[event.recid], event.recid, 0, event);
-                                var eData = { "type": "click", "phase": "before", "target": "grid", "recid": event.recid, "index": event.recid, "isStopped": false, "isCan//celled": false, "onComplete": null };
+                                $(chk[event.index]).prop('checked', false);
+                                $gridPayment.editChange.call($gridPayment, chk[event.index], event.index, 0, event);
+                                var eData = { "type": "click", "phase": "before", "target": "grid", "recid": event.recid, "index": event.index, "isStopped": false, "isCan//celled": false, "onComplete": null };
                                 $gridPayment.trigger(eData);
                                 return false;
                             }
@@ -5024,7 +5032,7 @@
                 }
                 //check weather someone clicked on select column checkbox in grid
                 if ((selectColIndex == event.column || event.column == null) && ((element[0] != undefined) && !(element[0].SelectRow == undefined))) {
-                    $gridPayment.records[event.recid]["AppliedAmt"] = VIS.Utility.Util.getValueOfDecimal($gridPayment.get(event.recid).OpenAmt);
+                    $gridPayment.get(event.recid)["AppliedAmt"] = VIS.Utility.Util.getValueOfDecimal($gridPayment.get(event.recid).OpenAmt);
                 }
                 tableChanged(event.recid, event.column, false, false);
             }
@@ -5045,16 +5053,16 @@
                 });
                 if (element == null || element[0] == undefined || element.length == 0 || element[0].SelectRow == undefined) {
                     //Set value to 0 when element is null
-                    $gridCashline.records[event.recid]["AppliedAmt"] = 0;
-                    //$gridCashline.records[event.recid]["Writeoff"] = 0;
-                    //$gridCashline.records[event.recid]["Discount"] = 0;
+                    $gridCashline.get(event.recid)["AppliedAmt"] = 0;
+                    //$gridCashline.get(event.recid)["Writeoff"] = 0;
+                    //$gridCashline.get(event.recid)["Discount"] = 0;
                     $gridCashline.refreshCell(0, "AppliedAmt");
                 }
                 else {
                     if (element[0].SelectRow == true) {
                         // when we select a record, check conversion type is same or not.
                         // if not then not to select this record
-                        if (C_ConversionType_ID == 0) {
+                        if (VIS.Utility.Util.getValueOfInt(C_ConversionType_ID) == 0) {
                             C_ConversionType_ID = $gridCashline.get(event.recid).C_ConversionType_ID;
                         }
                         else if (C_ConversionType_ID != $gridCashline.get(event.recid).C_ConversionType_ID) {
@@ -5086,13 +5094,13 @@
                                 $gridCashline.columns[colIndex].editable = false;
                                 $gridCashline.refreshCell(event.recid, "AppliedAmt");
                                 var chk = $('#grid_' + $gridCashline.name + '_records td[col="0"]').find('input[type="checkbox"]');
-                                $(chk[event.recid]).prop('checked', false);
-                                $gridCashline.editChange.call($gridCashline, chk[event.recid], event.recid, 0, event);
-                                var eData = { "type": "click", "phase": "before", "target": "grid", "recid": event.recid, "index": event.recid, "isStopped": false, "isCan//celled": false, "onComplete": null };
+                                $(chk[event.index]).prop('checked', false);
+                                $gridCashline.editChange.call($gridCashline, chk[event.index], event.index, 0, event);
+                                var eData = { "type": "click", "phase": "before", "target": "grid", "recid": event.recid, "index": event.index, "isStopped": false, "isCan//celled": false, "onComplete": null };
                                 $gridCashline.trigger(eData);
                                 return false;
                             }
-                            var DATEACCT = $gridCashline.records[event.recid].DATEACCT;
+                            var DATEACCT = $gridCashline.get(event.recid).DATEACCT;
                             var ConversnDate = Globalize.format(new Date($conversionDate.val()), "yyyy-MM-dd");
                             DATEACCT = Globalize.format(new Date(DATEACCT), "yyyy-MM-dd");
                             if (ConversnDate != DATEACCT) {
@@ -5103,9 +5111,9 @@
                                 $gridCashline.columns[colIndex].editable = false;
                                 $gridCashline.refreshCell(event.recid, "AppliedAmt");
                                 var chk = $('#grid_' + $gridCashline.name + '_records td[col="0"]').find('input[type="checkbox"]');
-                                $(chk[event.recid]).prop('checked', false);
-                                $gridCashline.editChange.call($gridCashline, chk[event.recid], event.recid, 0, event);
-                                var eData = { "type": "click", "phase": "before", "target": "grid", "recid": event.recid, "index": event.recid, "isStopped": false, "isCan//celled": false, "onComplete": null };
+                                $(chk[event.index]).prop('checked', false);
+                                $gridCashline.editChange.call($gridCashline, chk[event.index], event.index, 0, event);
+                                var eData = { "type": "click", "phase": "before", "target": "grid", "recid": event.recid, "index": event.index, "isStopped": false, "isCan//celled": false, "onComplete": null };
                                 $gridCashline.trigger(eData);
                                 return false;
                             }
@@ -5120,8 +5128,8 @@
                 }
                 //check weather someone clicked on select column checkbox in grid
                 if ((selectColIndex == event.column || event.column == null) && ((element[0] != undefined) && !(element[0].SelectRow == undefined))) {
-                    //$gridCashline.records[event.recid]["AppliedAmt"] = VIS.Utility.Util.getValueOfDecimal($gridCashline.get(event.recid).Amount);
-                    $gridCashline.records[event.recid]["AppliedAmt"] = VIS.Utility.Util.getValueOfDecimal($gridCashline.get(event.recid).OpenAmt);
+                    //$gridCashline.get(event.recid)["AppliedAmt"] = VIS.Utility.Util.getValueOfDecimal($gridCashline.get(event.recid).Amount);
+                    $gridCashline.get(event.recid)["AppliedAmt"] = VIS.Utility.Util.getValueOfDecimal($gridCashline.get(event.recid).OpenAmt);
                 }
                 tableChanged(event.recid, event.column, false, true);
             }
@@ -5143,7 +5151,7 @@
                 });
                 if (element == null || element[0] == undefined || element.length == 0 || element[0].SelectRow == undefined) {
                     //Set value to 0 when element is null
-                    $glLineGrid.records[event.recid]["AppliedAmt"] = 0;
+                    $glLineGrid.get(event.recid)["AppliedAmt"] = 0;
                     $glLineGrid.refreshCell(event.recid, "AppliedAmt");
                     getMaxDate();
                     //when unselect the record it will remove that record in getGLChanges list.
@@ -5157,7 +5165,7 @@
                     if (element[0].SelectRow == true) {
                         // when we select a record, check conversion type is same or not.
                         // if not then not to select this record
-                        if (C_ConversionType_ID == 0) {
+                        if (VIS.Utility.Util.getValueOfInt(C_ConversionType_ID) == 0) {
                             C_ConversionType_ID = $glLineGrid.get(event.recid).C_ConversionType_ID;
                         }
                         else if (C_ConversionType_ID != $glLineGrid.get(event.recid).C_ConversionType_ID) {
@@ -5190,13 +5198,13 @@
                                 $glLineGrid.get(event.recid).changes.AppliedAmt = "0";
                                 $glLineGrid.refreshCell(event.recid, "AppliedAmt");
                                 var chk = $('#grid_' + $glLineGrid.name + '_records td[col="0"]').find('input[type="checkbox"]');
-                                $(chk[event.recid]).prop('checked', false);
-                                $glLineGrid.editChange.call($glLineGrid, chk[event.recid], event.recid, 0, event);
-                                var eData = { "type": "click", "phase": "before", "target": "grid", "recid": event.recid, "index": event.recid, "isStopped": false, "isCan//celled": false, "onComplete": null };
+                                $(chk[event.index]).prop('checked', false);
+                                $glLineGrid.editChange.call($glLineGrid, chk[event.index], event.index, 0, event);
+                                var eData = { "type": "click", "phase": "before", "target": "grid", "recid": event.recid, "index": event.index, "isStopped": false, "isCan//celled": false, "onComplete": null };
                                 $glLineGrid.trigger(eData);
                                 return false;
                             }
-                            var DATEACCT = $glLineGrid.records[event.recid].DATEACCT;
+                            var DATEACCT = $glLineGrid.get(event.recid).DATEACCT;
                             var ConversnDate = Globalize.format(new Date($conversionDate.val()), "yyyy-MM-dd");
                             DATEACCT = Globalize.format(new Date(DATEACCT), "yyyy-MM-dd");
                             if (ConversnDate != DATEACCT) {
@@ -5208,9 +5216,9 @@
                                 $glLineGrid.get(event.recid).changes.AppliedAmt = "0";
                                 $glLineGrid.refreshCell(event.recid, "AppliedAmt");
                                 var chk = $('#grid_' + $glLineGrid.name + '_records td[col="0"]').find('input[type="checkbox"]');
-                                $(chk[event.recid]).prop('checked', false);
-                                $glLineGrid.editChange.call($glLineGrid, chk[event.recid], event.recid, 0, event);
-                                var eData = { "type": "click", "phase": "before", "target": "grid", "recid": event.recid, "index": event.recid, "isStopped": false, "isCan//celled": false, "onComplete": null };
+                                $(chk[event.index]).prop('checked', false);
+                                $glLineGrid.editChange.call($glLineGrid, chk[event.index], event.index, 0, event);
+                                var eData = { "type": "click", "phase": "before", "target": "grid", "recid": event.recid, "index": event.index, "isStopped": false, "isCan//celled": false, "onComplete": null };
                                 $glLineGrid.trigger(eData);
                                 return false;
                             }
@@ -5233,9 +5241,9 @@
                                 $glLineGrid.get(event.recid).changes.AppliedAmt = "0";
                                 $glLineGrid.refreshCell(event.recid, "AppliedAmt");
                                 var chk = $('#grid_' + $glLineGrid.name + '_records td[col="0"]').find('input[type="checkbox"]');
-                                $(chk[event.recid]).prop('checked', false);
-                                $glLineGrid.editChange.call($glLineGrid, chk[event.recid], event.recid, 0, event);
-                                var eData = { "type": "click", "phase": "before", "target": "grid", "recid": event.recid, "index": event.recid, "isStopped": false, "isCan//celled": false, "onComplete": null };
+                                $(chk[event.index]).prop('checked', false);
+                                $glLineGrid.editChange.call($glLineGrid, chk[event.index], event.index, 0, event);
+                                var eData = { "type": "click", "phase": "before", "target": "grid", "recid": event.recid, "index": event.index, "isStopped": false, "isCan//celled": false, "onComplete": null };
                                 $glLineGrid.trigger(eData);
                                 for (var x = 0; x < getGLChanges.length; x++) {
                                     if (getGLChanges[x].recid == event.recid) {
@@ -5258,7 +5266,7 @@
                 }
                 //check weather someone clicked on select column checkbox in grid
                 if ((selectColIndex == event.column || event.column == null) && ((element[0] != undefined) && !(element[0].SelectRow == undefined))) {
-                    $glLineGrid.records[event.recid]["AppliedAmt"] = VIS.Utility.Util.getValueOfDecimal($glLineGrid.get(event.recid).OpenAmount);
+                    $glLineGrid.get(event.recid)["AppliedAmt"] = VIS.Utility.Util.getValueOfDecimal($glLineGrid.get(event.recid).OpenAmount);
                 }
                 glTableChanged(event.recid, event.column);
             }
@@ -5358,7 +5366,7 @@
             }
             //when AppliedAmt cell changed then only this function will call
             if (colIndex == event.column) {
-                tableChanged(event.index, event.column, false, false);
+                tableChanged(event.recid, event.column, false, false);
             }
         };
 
@@ -5408,7 +5416,7 @@
                 else {
                     $glLineGrid.set(0, { "AppliedAmt": $glLineGrid.get(event.recid).OpenAmount });
                 }
-                glTableChanged(event.index, event.column);
+                glTableChanged(event.recid, event.column);
             }
             //calculate();
         };
@@ -5495,7 +5503,7 @@
             }
             //when AppliedAmt cell changed then only this function will call
             if (colIndex == event.column) {
-                tableChanged(event.index, event.column, false, true);
+                tableChanged(event.recid, event.column, false, true);
             }
         };
 
@@ -5693,11 +5701,11 @@
                         return;
                     }
                     else {
-                        $gridInvoice.records[event.recid]["AppliedAmt"] = VIS.Utility.Util.getValueOfDecimal($gridInvoice.get(event.recid).Amount);
+                        $gridInvoice.get(event.recid)["AppliedAmt"] = VIS.Utility.Util.getValueOfDecimal($gridInvoice.get(event.recid).Amount);
                     }
                 }
                 else {
-                    $gridInvoice.records[event.recid]["AppliedAmt"] = VIS.Utility.Util.getValueOfDecimal($gridInvoice.get(event.recid).Amount);
+                    $gridInvoice.get(event.recid)["AppliedAmt"] = VIS.Utility.Util.getValueOfDecimal($gridInvoice.get(event.recid).Amount);
                 }
             }
 
@@ -5705,7 +5713,7 @@
                 || event.column == $gridInvoice.getColumn('Writeoff', true)
                 || event.column == $gridInvoice.getColumn('AppliedAmt', true)) {
 
-                tableChanged(event.index, event.column, true, false);
+                tableChanged(event.recid, event.column, true, false);
 
             }
         };
@@ -5732,7 +5740,7 @@
 
                     if (colPayCheck) {
                         // prepared same array for grid when we select any payment from payment grid and push that object into selected payment array.
-                        var record = $gridPayment.records[row];
+                        var record = $gridPayment.get(row);
                         var rcdRow = {
                             SelectRow: record.SelectRow,
                             //InvoiceRecord: changes.InvoiceRecord,
@@ -5792,14 +5800,14 @@
                         //    }
                         //}
                         for (var x = 0; x < selectedPayments.length; x++) {
-                            if (selectedPayments[x].CpaymentID == $gridPayment.records[row].CpaymentID) {
+                            if (selectedPayments[x].CpaymentID == $gridPayment.get(row).CpaymentID) {
                                 selectedPayments.splice(x, 1);
                             }
                         }
                         if (payemntCol == "AppliedAmt") {
                             if (changes != null && changes != undefined) {
                                 changes.AppliedAmt = amount;
-                                $gridPayment.records[row]["AppliedAmt"] = 0;
+                                $gridPayment.get(row)["AppliedAmt"] = 0;
                                 $gridPayment.refreshCell(row, "AppliedAmt");
                             }
                         }
@@ -5851,7 +5859,7 @@
                     if (colCashCheck) {
 
                         // prepared same array for grid when we select any cash line from cash line grid and push that object into selected cash line array.
-                        var record = $gridCashline.records[row];
+                        var record = $gridCashline.get(row);
                         //debugger;
                         var rcdRow = {
                             SelectRow: record.SelectRow,
@@ -5906,14 +5914,14 @@
                         //    }
                         //}
                         for (var x = 0; x < selectedCashlines.length; x++) {
-                            if (selectedCashlines[x].CcashlineiID == $gridCashline.records[row].CcashlineiID) {
+                            if (selectedCashlines[x].CcashlineiID == $gridCashline.get(row).CcashlineiID) {
                                 selectedCashlines.splice(x, 1);
                             }
                         }
                         if (payemntCol == "AppliedAmt") {
                             if (changes != null && changes != undefined) {
                                 changes.AppliedAmt = amount;
-                                $gridCashline.records[row]["AppliedAmt"] = 0;
+                                $gridCashline.get(row)["AppliedAmt"] = 0;
                                 $gridCashline.refreshCell(row, "AppliedAmt");
                             }
                         }
@@ -5966,7 +5974,7 @@
                 if (colInvCheck) {
 
                     // prepared same array for grid when we select any invoice from invoice grid and push that object into selected invoice array.
-                    var record = $gridInvoice.records[row];
+                    var record = $gridInvoice.get(row);
                     var rcdRow = {
                         SelectRow: record.SelectRow,
                         InvoiceRecord: record.InvoiceRecord,
@@ -6024,7 +6032,7 @@
                 {
                     // remove invoice schedule from array when we de-select any schedule from invoice grid.
                     for (var x = 0; x < selectedInvoices.length; x++) {
-                        if (selectedInvoices[x].C_InvoicePaySchedule_ID == $gridInvoice.records[row].C_InvoicePaySchedule_ID) {
+                        if (selectedInvoices[x].C_InvoicePaySchedule_ID == $gridInvoice.get(row).C_InvoicePaySchedule_ID) {
                             selectedInvoices.splice(x, 1);
                         }
                     }
@@ -6036,7 +6044,7 @@
                             changes.Discount = amount;                            //Discount---//get column index from grid
                             _discount = getIndexFromArray(columns, "Discount");
                             //changes.Discount = parseFloat($gridInvoice.get(row)[columns[_discount].field]);
-                            $gridInvoice.records[row]["AppliedAmt"] = 0;
+                            $gridInvoice.get(row)["AppliedAmt"] = 0;
                             $gridInvoice.refreshCell(row, "Writeoff");
                             $gridInvoice.refreshCell(row, "AppliedAmt");
                             $gridInvoice.refreshCell(row, "Discount");
@@ -6172,14 +6180,14 @@
                 {
                     //de-select from SelectedGL list.
                     for (var x = 0; x < SelectedGL.length; x++) {
-                        if (SelectedGL[x].GL_JOURNALLINE_ID == $glLineGrid.records[row].GL_JOURNALLINE_ID) {
+                        if (SelectedGL[x].GL_JOURNALLINE_ID == $glLineGrid.get(row).GL_JOURNALLINE_ID) {
                             SelectedGL.splice(x, 1);
                         }
                     }
                     if (payemntCol == "AppliedAmt") {
                         if (changes != null && changes != undefined) {
                             changes.AppliedAmt = amount;
-                            $glLineGrid.records[row]["AppliedAmt"] = 0;
+                            $glLineGrid.get(row)["AppliedAmt"] = 0;
                             $glLineGrid.refreshCell(row, "AppliedAmt");
                         }
                     }
@@ -6303,9 +6311,9 @@
                 }
                 else {
                     if ($gridPayment.getChanges()[i].SelectRow == true) {
-                        var row = $gridPayment.records[$gridPayment.getChanges()[i].recid].DATEACCT;
+                        var row = $gridPayment.get($gridPayment.getChanges()[i].recid).DATEACCT;
                         _allDates.push(new Date(row));
-                        var DATEACCT = $gridPayment.records[$gridPayment.getChanges()[i].recid].DATEACCT;
+                        var DATEACCT = $gridPayment.get($gridPayment.getChanges()[i].recid).DATEACCT;
                         _dateAcct.push(new Date(DATEACCT));
                         $dateAcct.val(Globalize.format(new Date(Math.max.apply(null, _dateAcct)), "yyyy-MM-dd"));
                         //_dateAcct = [];
@@ -6317,10 +6325,10 @@
                 }
                 else {
                     if ($gridInvoice.getChanges()[i].SelectRow == true) {
-                        var row = $gridInvoice.records[$gridInvoice.getChanges()[i].recid].Date1; //changed schedule date to invoice date suggested by Mukesh sir, ravi and amit.
+                        var row = $gridInvoice.get($gridInvoice.getChanges()[i].recid).Date1; //changed schedule date to invoice date suggested by Mukesh sir, ravi and amit.
                         _allDates.push(new Date(row));
                         if ($gridPayment.getChanges().length == 0 && $gridCashline.getChanges().length == 0 && $glLineGrid.getChanges().length == 0) {
-                            var DATEACCT = $gridInvoice.records[$gridInvoice.getChanges()[i].recid].DATEACCT;
+                            var DATEACCT = $gridInvoice.get($gridInvoice.getChanges()[i].recid).DATEACCT;
                             _dateAcct.push(new Date(DATEACCT));
                             $dateAcct.val(Globalize.format(new Date(Math.max.apply(null, _dateAcct)), "yyyy-MM-dd"));
                         }
@@ -6332,10 +6340,10 @@
                 }
                 else {
                     if ($gridCashline.getChanges()[i].SelectRow == true) {
-                        var row = $gridCashline.records[$gridCashline.getChanges()[i].recid].DATEACCT;
+                        var row = $gridCashline.get($gridCashline.getChanges()[i].recid).DATEACCT;
                         _allDates.push(new Date(row));
                         if ($gridPayment.getChanges().length == 0 && $gridInvoice.getChanges().length == 0 && $glLineGrid.getChanges().length == 0) {
-                            var DATEACCT = $gridCashline.records[$gridCashline.getChanges()[i].recid].DATEACCT;
+                            var DATEACCT = $gridCashline.get($gridCashline.getChanges()[i].recid).DATEACCT;
                             _dateAcct.push(new Date(DATEACCT));
                             $dateAcct.val(Globalize.format(new Date(Math.max.apply(null, _dateAcct)), "yyyy-MM-dd"));
                         }
@@ -6506,9 +6514,9 @@
                 }
                 else {
                     if ($gridPayment.getChanges()[i].SelectRow == true) {
-                        var row = $gridPayment.records[$gridPayment.getChanges()[i].recid].DATEACCT;
+                        var row = $gridPayment.get($gridPayment.getChanges()[i].recid).DATEACCT;
                         // check org matched or not 
-                        if (isOrgMatched && parseInt($cmbOrg.val()) != parseInt($gridPayment.records[$gridPayment.getChanges()[i].recid].AD_Org_ID)) {
+                        if (isOrgMatched && parseInt($cmbOrg.val()) != parseInt($gridPayment.get($gridPayment.getChanges()[i].recid).AD_Org_ID)) {
                             isOrgMatched = false;
                         }
                         _allDates.push(new Date(row));
@@ -6520,9 +6528,9 @@
                 }
                 else {
                     if ($gridInvoice.getChanges()[i].SelectRow == true) {
-                        var row = $gridInvoice.records[$gridInvoice.getChanges()[i].recid].Date1; //changed schedule date to invoice date suggested by Mukesh sir, ravi and amit.
+                        var row = $gridInvoice.get($gridInvoice.getChanges()[i].recid).Date1; //changed schedule date to invoice date suggested by Mukesh sir, ravi and amit.
                         // check org matched or not 
-                        if (isOrgMatched && parseInt($cmbOrg.val()) != parseInt($gridInvoice.records[$gridInvoice.getChanges()[i].recid].AD_Org_ID)) {
+                        if (isOrgMatched && parseInt($cmbOrg.val()) != parseInt($gridInvoice.get($gridInvoice.getChanges()[i].recid).AD_Org_ID)) {
                             isOrgMatched = false;
                         }
                         _allDates.push(new Date(row));
@@ -6534,9 +6542,9 @@
                 }
                 else {
                     if ($gridCashline.getChanges()[i].SelectRow == true) {
-                        var row = $gridCashline.records[$gridCashline.getChanges()[i].recid].DATEACCT;
+                        var row = $gridCashline.get($gridCashline.getChanges()[i].recid).DATEACCT;
                         // check org matched or not 
-                        if (isOrgMatched && parseInt($cmbOrg.val()) != parseInt($gridCashline.records[$gridCashline.getChanges()[i].recid].AD_Org_ID)) {
+                        if (isOrgMatched && parseInt($cmbOrg.val()) != parseInt($gridCashline.get($gridCashline.getChanges()[i].recid).AD_Org_ID)) {
                             isOrgMatched = false;
                         }
                         _allDates.push(new Date(row));
@@ -6549,7 +6557,7 @@
                 }
                 else {
                     if ($glLineGrid.getChanges()[i].SelectRow == true) {
-                        var row = $glLineGrid.records[$glLineGrid.getChanges()[i].recid].DATEACCT;
+                        var row = $glLineGrid.get($glLineGrid.getChanges()[i].recid).DATEACCT;
                         _allDates.push(new Date(row));
                     }
                 }
@@ -6767,7 +6775,7 @@
                         }
                         else {
                             bd = 0;
-                            console.log("GL Row: " + rowsInvoice[i][keys[keys.indexOf("AppliedAmt")]] + ", RowNo:-" + i);
+                            console.log("GL Row: " + rowsGL[i][keys[keys.indexOf("AppliedAmt")]] + ", RowNo:-" + i);
                         }
                         totalGL = totalGL + (isNaN(bd) ? 0 : bd);  //  Applied GL
                         _noGL++;
